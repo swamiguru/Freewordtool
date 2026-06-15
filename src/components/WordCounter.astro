@@ -82,12 +82,37 @@ const { heading = "Word Counter" } = Astro.props;
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
       <!-- Textarea -->
       <div class="lg:col-span-2 flex flex-col">
+        <!-- Writing Analysis toggle -->
+        <div class="flex items-center justify-between mb-2">
+          <div class="flex items-center gap-3">
+            <label class="flex items-center gap-2 cursor-pointer select-none">
+              <div class="relative">
+                <input id="analysis-toggle" type="checkbox" class="sr-only peer" />
+                <div class="w-9 h-5 rounded-full bg-gray-300 dark:bg-gray-600 peer-checked:bg-blue-600 transition-colors"></div>
+                <div class="absolute top-0.5 left-0.5 w-4 h-4 rounded-full bg-white shadow transition-transform peer-checked:translate-x-4"></div>
+              </div>
+              <span class="text-sm font-medium text-gray-700 dark:text-gray-300">Writing Analysis</span>
+            </label>
+            <div id="analysis-legend" class="hidden items-center gap-3 text-xs text-gray-500 dark:text-gray-400">
+              <span class="flex items-center gap-1"><span class="inline-block w-3 h-3 rounded-sm bg-yellow-200"></span>20–30 words</span>
+              <span class="flex items-center gap-1"><span class="inline-block w-3 h-3 rounded-sm bg-red-200"></span>30+ words</span>
+              <span class="flex items-center gap-1"><span class="inline-block w-3 h-3 rounded-sm border-b-2 border-blue-500"></span>Passive</span>
+            </div>
+          </div>
+        </div>
+
         <div class="relative flex-1">
+          <!-- Highlight overlay -->
+          <div
+            id="analysis-overlay"
+            aria-hidden="true"
+            class="hidden absolute inset-0 p-4 text-base leading-relaxed rounded-xl pointer-events-none overflow-hidden font-sans text-transparent whitespace-pre-wrap break-words"
+          ></div>
           <textarea
             id="text-input"
             placeholder="Start typing or paste your text here…"
             spellcheck="true"
-            class="w-full h-80 lg:h-[520px] p-4 text-base leading-relaxed rounded-xl border-2 border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-600 resize-none focus:outline-none focus:border-blue-500 dark:focus:border-blue-500 transition-colors font-sans"
+            class="relative w-full h-80 lg:h-[520px] p-4 text-base leading-relaxed rounded-xl border-2 border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-600 resize-none focus:outline-none focus:border-blue-500 dark:focus:border-blue-500 transition-colors font-sans"
           ></textarea>
           <button
             id="clear-btn"
@@ -103,6 +128,25 @@ const { heading = "Word Counter" } = Astro.props;
             Draft saved
           </div>
         </div>
+
+        <!-- Analysis summary bar -->
+        <div id="analysis-bar" class="hidden mt-2 px-3 py-2 rounded-lg bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 text-xs text-gray-600 dark:text-gray-400 flex items-center gap-3 flex-wrap">
+          <span id="analysis-long" class="flex items-center gap-1">
+            <span class="w-2.5 h-2.5 rounded-sm bg-yellow-300 inline-block"></span>
+            <span id="long-count">0</span> long sentences
+          </span>
+          <span class="text-gray-300 dark:text-gray-600">·</span>
+          <span id="analysis-vlong" class="flex items-center gap-1">
+            <span class="w-2.5 h-2.5 rounded-sm bg-red-300 inline-block"></span>
+            <span id="vlong-count">0</span> very long sentences
+          </span>
+          <span class="text-gray-300 dark:text-gray-600">·</span>
+          <span class="flex items-center gap-1">
+            <span class="w-2.5 h-2.5 rounded-sm border-b-2 border-blue-500 inline-block"></span>
+            <span id="passive-count">0</span> passive voice
+          </span>
+        </div>
+
         <div class="mt-2 flex gap-2 flex-wrap">
           <button id="copy-btn" class="px-3 py-1.5 text-xs rounded-lg border border-gray-200 dark:border-gray-700 hover:border-blue-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors bg-white dark:bg-gray-900">Copy text</button>
           <button id="download-btn" class="px-3 py-1.5 text-xs rounded-lg border border-gray-200 dark:border-gray-700 hover:border-blue-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors bg-white dark:bg-gray-900">Download .txt</button>
@@ -154,6 +198,14 @@ const { heading = "Word Counter" } = Astro.props;
           <div class="stat-card p-4 rounded-xl bg-gray-100 dark:bg-gray-800 shadow-sm">
             <div id="stat-lines" class="text-3xl font-bold text-gray-800 dark:text-white">0</div>
             <div class="text-xs text-gray-500 dark:text-gray-400 mt-0.5 uppercase tracking-wide">Lines</div>
+          </div>
+          <div class="stat-card p-4 rounded-xl bg-gray-100 dark:bg-gray-800 shadow-sm">
+            <div id="stat-unique" class="text-3xl font-bold text-gray-800 dark:text-white">0</div>
+            <div class="text-xs text-gray-500 dark:text-gray-400 mt-0.5 uppercase tracking-wide">Unique Words</div>
+          </div>
+          <div class="stat-card p-4 rounded-xl bg-gray-100 dark:bg-gray-800 shadow-sm">
+            <div id="stat-vocab" class="text-3xl font-bold text-gray-800 dark:text-white">0%</div>
+            <div class="text-xs text-gray-500 dark:text-gray-400 mt-0.5 uppercase tracking-wide">Vocab Richness</div>
           </div>
         </div>
 
@@ -269,6 +321,29 @@ const { heading = "Word Counter" } = Astro.props;
   /* Hide scrollbar on chip row but keep scroll */
   .scrollbar-hide { scrollbar-width: none; }
   .scrollbar-hide::-webkit-scrollbar { display: none; }
+
+  /* Writing analysis overlay — must exactly match textarea geometry */
+  #analysis-overlay {
+    top: 0; left: 0; right: 0; bottom: 0;
+    color: transparent;
+    background: transparent;
+    z-index: 1;
+    word-wrap: break-word;
+    overflow-y: auto;
+  }
+  #text-input.analysis-on {
+    background: transparent !important;
+    position: relative;
+    z-index: 2;
+    caret-color: inherit;
+  }
+  /* The textarea sits on top of the overlay; make it semi-transparent so highlights show through */
+  #text-input.analysis-on {
+    background: transparent !important;
+  }
+  .wa-long    { background: rgba(253,224,71,0.55);  border-radius: 2px; }
+  .wa-vlong   { background: rgba(252,165,165,0.6);  border-radius: 2px; }
+  .wa-passive { text-decoration: underline; text-decoration-color: #3b82f6; text-decoration-thickness: 2px; text-underline-offset: 2px; }
 </style>
 
 <script>
@@ -420,6 +495,104 @@ function updateReadability(text) {
   fogEl.textContent = fog;
 }
 
+// ── Writing Analysis ─────────────────────────────────────────────────────────
+const PASSIVE_RE = /\b(am|is|are|was|were|be|been|being)\s+\w+ed\b/gi;
+
+function splitSentences(text) {
+  // Split on sentence-ending punctuation, keeping the delimiter with the sentence
+  return text.match(/[^.!?]*[.!?]+[\s]*/g) || (text.trim() ? [text] : []);
+}
+
+function wordCount(str) {
+  return (str.trim().match(/\S+/g) || []).length;
+}
+
+function buildOverlay(text) {
+  // We need to annotate spans in the raw text preserving all whitespace
+  // Strategy: iterate sentence by sentence, within each apply passive highlighting
+  let longCount = 0, vlongCount = 0;
+  const passiveMatches = [];
+
+  // Collect all passive matches across full text for counting
+  let pm;
+  PASSIVE_RE.lastIndex = 0;
+  while ((pm = PASSIVE_RE.exec(text)) !== null) passiveMatches.push({ start: pm.index, end: pm.index + pm[0].length, text: pm[0] });
+
+  // Build char-level annotation map: 'l'=long, 'v'=vlong, 'p'=passive (can stack)
+  const sentMark  = new Uint8Array(text.length); // 1=long,2=vlong
+  const passiveMark = new Uint8Array(text.length); // 1=passive
+
+  // Sentence boundaries
+  let cursor = 0;
+  const sentenceRe = /[^.!?]*[.!?]+/g;
+  let sm;
+  sentenceRe.lastIndex = 0;
+  while ((sm = sentenceRe.exec(text)) !== null) {
+    const wc = wordCount(sm[0]);
+    if (wc > 30) { vlongCount++; for (let i = sm.index; i < sm.index + sm[0].length; i++) sentMark[i] = 2; }
+    else if (wc >= 20) { longCount++; for (let i = sm.index; i < sm.index + sm[0].length; i++) sentMark[i] = 1; }
+    cursor = sm.index + sm[0].length;
+  }
+  // Handle trailing text with no punctuation
+  if (cursor < text.length) {
+    const tail = text.slice(cursor);
+    const wc = wordCount(tail);
+    if (wc > 30)      { vlongCount++; for (let i = cursor; i < text.length; i++) sentMark[i] = 2; }
+    else if (wc >= 20){ longCount++;  for (let i = cursor; i < text.length; i++) sentMark[i] = 1; }
+  }
+
+  // Passive marks
+  for (const { start, end } of passiveMatches) for (let i = start; i < end; i++) passiveMark[i] = 1;
+
+  // Build HTML — walk character by character, emit spans on mark changes
+  let html = '';
+  let i = 0;
+  while (i < text.length) {
+    const sm2 = sentMark[i], pm2 = passiveMark[i];
+    // Find run length where marks don't change
+    let j = i + 1;
+    while (j < text.length && sentMark[j] === sm2 && passiveMark[j] === pm2) j++;
+    const chunk = text.slice(i, j).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    const cls = [sm2 === 2 ? 'wa-vlong' : sm2 === 1 ? 'wa-long' : '', pm2 ? 'wa-passive' : ''].filter(Boolean).join(' ');
+    html += cls ? `<span class="${cls}">${chunk}</span>` : chunk;
+    i = j;
+  }
+  return { html, longCount, vlongCount, passiveCount: passiveMatches.length };
+}
+
+let analysisOn = false;
+
+function updateAnalysis(text) {
+  const overlay = document.getElementById('analysis-overlay');
+  const bar     = document.getElementById('analysis-bar');
+  const legend  = document.getElementById('analysis-legend');
+  const ta      = document.getElementById('text-input');
+
+  if (!analysisOn || !text.trim()) {
+    overlay.classList.add('hidden');
+    bar.classList.add('hidden');
+    legend.classList.add('hidden');
+    ta.classList.remove('analysis-on');
+    return;
+  }
+
+  const { html, longCount, vlongCount, passiveCount } = buildOverlay(text);
+  overlay.innerHTML = html;
+  overlay.scrollTop = ta.scrollTop;
+
+  overlay.classList.remove('hidden');
+  bar.classList.remove('hidden');
+  legend.classList.remove('flex');
+  legend.classList.add('flex');
+  legend.classList.remove('hidden');
+  ta.classList.add('analysis-on');
+
+  document.getElementById('long-count').textContent  = longCount;
+  document.getElementById('vlong-count').textContent = vlongCount;
+  document.getElementById('passive-count').textContent = passiveCount;
+}
+// ─────────────────────────────────────────────────────────────────────────────
+
 let charLimit = 0;
 let draftBadgeTimer = null;
 
@@ -453,12 +626,19 @@ function updateStats() {
   const chars = text.length;
   const charsNoSpace = text.replace(/\s/g, '').length;
 
+  // Unique words & vocab richness
+  const allWords = text.toLowerCase().match(/\b[a-z']+\b/g) || [];
+  const uniqueWords = new Set(allWords).size;
+  const vocabRichness = allWords.length > 0 ? Math.round((uniqueWords / allWords.length) * 100) : 0;
+
   document.getElementById('stat-words').textContent = words.toLocaleString();
   document.getElementById('stat-chars').textContent = chars.toLocaleString();
   document.getElementById('stat-chars-no-space').textContent = charsNoSpace.toLocaleString();
   document.getElementById('stat-sentences').textContent = countSentences(text).toLocaleString();
   document.getElementById('stat-paragraphs').textContent = countParagraphs(text).toLocaleString();
   document.getElementById('stat-lines').textContent = countLines(text).toLocaleString();
+  document.getElementById('stat-unique').textContent = uniqueWords.toLocaleString();
+  document.getElementById('stat-vocab').textContent = vocabRichness + '%';
   document.getElementById('stat-read-time').textContent = formatTime(words / 238);
   document.getElementById('stat-speak-time').textContent = formatTime(words / 130);
 
@@ -520,6 +700,9 @@ function updateStats() {
   // Readability
   updateReadability(text);
 
+  // Writing analysis
+  updateAnalysis(text);
+
   // Word goal
   updateGoal(words);
 
@@ -531,6 +714,19 @@ function updateStats() {
     clearBtn.classList.add('opacity-0');
   }
 }
+
+// Writing analysis toggle
+document.getElementById('analysis-toggle').addEventListener('change', (e) => {
+  analysisOn = e.target.checked;
+  updateAnalysis(document.getElementById('text-input').value);
+});
+
+// Mirror scroll position from textarea to overlay
+document.getElementById('text-input').addEventListener('scroll', () => {
+  const ta = document.getElementById('text-input');
+  const overlay = document.getElementById('analysis-overlay');
+  overlay.scrollTop = ta.scrollTop;
+});
 
 // Keyword tabs
 document.getElementById('tab-words').addEventListener('click', () => {
