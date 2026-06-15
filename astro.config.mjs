@@ -5,7 +5,7 @@ import tailwindcss from '@tailwindcss/vite';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://wordcounter.app',
+  site: 'https://word-counter-tool-five.vercel.app',
   vite: {
     plugins: [tailwindcss()]
   }
