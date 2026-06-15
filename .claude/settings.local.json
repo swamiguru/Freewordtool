@@ -6,7 +6,8 @@
       "Read(//opt/homebrew/bin/**)",
       "Read(//usr/local/**)",
       "Read(//Users/masterswami/**)",
-      "Bash(brew --prefix)"
+      "Bash(brew --prefix)",
+      "WebFetch(domain:www.freewordtool.com)"
     ]
   }
 }
