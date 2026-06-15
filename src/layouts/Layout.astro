@@ -6,7 +6,7 @@ export interface Props {
   canonical?: string;
 }
 const { title, description, canonical } = Astro.props;
-const site = Astro.site ?? "https://wordcounter.app";
+const site = Astro.site ?? "https://www.freewordtool.com";
 const canonicalURL = canonical ?? new URL(Astro.url.pathname, site).href;
 ---
 
