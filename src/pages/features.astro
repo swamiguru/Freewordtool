@@ -1,0 +1,205 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const groups = [
+  {
+    title: "Live Text Statistics",
+    icon: `<svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>`,
+    features: [
+      { name: "Word Count", desc: "Counts every word in real time as you type or paste. Hyphenated words such as \"well-being\" are counted as one word, matching standard word-processor conventions." },
+      { name: "Character Count", desc: "Displays total characters including spaces and a separate count excluding spaces — useful when a platform specifies a character limit without spaces." },
+      { name: "Sentence Count", desc: "Detects sentence boundaries using full stops, exclamation marks, and question marks. Multiple consecutive punctuation marks are treated as a single sentence ending." },
+      { name: "Paragraph Count", desc: "Counts blocks of text separated by one or more blank lines. Single line breaks within a block are not treated as new paragraphs." },
+      { name: "Line Count", desc: "Counts every line including blank lines, useful for poetry, code, or any format where line structure matters." },
+      { name: "Unique Word Count", desc: "Counts how many distinct words appear in your text, case-insensitively. A useful proxy for vocabulary breadth in essays and reports." },
+      { name: "Vocabulary Richness %", desc: "Calculates the ratio of unique words to total words as a percentage. A higher score indicates more varied language; repetitive text scores lower." },
+    ]
+  },
+  {
+    title: "Reading & Speaking Time",
+    icon: `<svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>`,
+    features: [
+      { name: "Reading Time Estimate", desc: "Calculates how long it will take an average adult to read your text silently, based on a reading speed of 238 words per minute — the same benchmark used by Medium." },
+      { name: "Speaking Time Estimate", desc: "Estimates how long your text will take to deliver aloud at 130 words per minute, a natural conversational pace suitable for speeches, podcasts, and presentations." },
+    ]
+  },
+  {
+    title: "Readability Scores",
+    icon: `<svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>`,
+    features: [
+      { name: "Flesch Reading Ease", desc: "Scores your text from 0 to 100. Higher scores mean easier reading — 60–70 is ideal for general audiences, while scores below 30 indicate academic or technical complexity." },
+      { name: "Flesch-Kincaid Grade Level", desc: "Maps your text to a US school grade level. A score of 8 means the text is readable by an 8th grader. Most online content targets grades 6–8." },
+      { name: "Gunning Fog Index", desc: "Estimates the years of formal education needed to understand your text on first reading. A score of 12 corresponds to a high-school graduate; below 8 is considered plain English." },
+    ]
+  },
+  {
+    title: "Writing Analysis Mode",
+    icon: `<svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/></svg>`,
+    features: [
+      { name: "Long Sentence Highlighting", desc: "Sentences between 20 and 30 words are highlighted in yellow, flagging them as candidates for editing. Long sentences are harder to follow and reduce readability." },
+      { name: "Very Long Sentence Highlighting", desc: "Sentences over 30 words are highlighted in red. These almost always benefit from being split into two shorter sentences." },
+      { name: "Passive Voice Detection", desc: "Detects passive voice constructions (e.g. \"was written\", \"is being reviewed\") and underlines them in blue so you can choose to rephrase them in active voice." },
+      { name: "Analysis Summary Bar", desc: "A compact bar below the editor shows the total count of long sentences, very long sentences, and passive voice instances — giving you a quick overview without scrolling." },
+    ]
+  },
+  {
+    title: "Keyword & Phrase Frequency",
+    icon: `<svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-5 5a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 10V5a2 2 0 012-2z"/></svg>`,
+    features: [
+      { name: "Top Keywords with Density", desc: "Displays the top 5 most frequent meaningful words, excluding common stop words like \"the\", \"and\", and \"is\". Each keyword shows its raw count and its density as a percentage of all meaningful words." },
+      { name: "Two-Word Phrase (Bigram) Frequency", desc: "A second tab shows the top 5 two-word phrases (bigrams) appearing in your text. Stop-word-only pairs are filtered out, so results surface genuinely meaningful phrase patterns." },
+    ]
+  },
+  {
+    title: "Character Limit Presets",
+    icon: `<svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h8m-8 6h16"/></svg>`,
+    features: [
+      { name: "Platform Presets", desc: "One-click presets for Email Subject (60), TikTok Bio (80), Meta Description (160), Twitter / X (280), Pinterest (500), Instagram Caption (2,200), LinkedIn Post (3,000), and YouTube Description (5,000)." },
+      { name: "Live Progress Bar", desc: "Activating a preset reveals a colour-coded progress bar showing how many characters you have used and how many remain. The bar turns red when you approach or exceed the limit." },
+    ]
+  },
+  {
+    title: "Word Goal Tracker",
+    icon: `<svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"/></svg>`,
+    features: [
+      { name: "Custom Word Target", desc: "Set a word count target — such as 500, 1,000, or 5,000 words — and a live progress bar tracks how far through your goal you are as you write." },
+      { name: "Completion Indicator", desc: "The progress bar fills and turns green when you hit your target, giving you a satisfying visual confirmation that you have reached your word count goal." },
+    ]
+  },
+  {
+    title: "Productivity Tools",
+    icon: `<svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>`,
+    features: [
+      { name: "Auto-Save Draft", desc: "Your text is automatically saved to your browser's local storage as you type. If you close the tab or refresh the page, your draft is restored so you never lose work." },
+      { name: "Copy Text", desc: "Copies the entire contents of the editor to your clipboard in one click. The button label briefly changes to \"Copied!\" to confirm the action." },
+      { name: "Download as .txt", desc: "Downloads your text as a plain-text file named after the tool (e.g. wordcount-text.txt). No formatting is added — just clean, portable plain text." },
+      { name: "Try Lorem Ipsum", desc: "Fills the editor with three paragraphs of Lorem Ipsum placeholder text so you can instantly see all stats and analysis features in action without pasting your own content." },
+      { name: "Clear Text", desc: "An ✕ button appears in the top-right corner of the editor when text is present. Clicking it instantly clears the entire editor." },
+      { name: "Dark Mode", desc: "A toggle in the top-right corner switches between light and dark themes. Your preference is saved to local storage and remembered on your next visit." },
+    ]
+  },
+  {
+    title: "Free Calculators & Generators",
+    icon: `<svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>`,
+    features: [
+      { name: "Words to Pages Calculator", desc: "Enter a word count and choose font size (10–14pt) and line spacing (single, 1.5, or double) to calculate how many pages your document will be. Includes a reference table for common word counts.", link: "/words-to-pages" },
+      { name: "Reading Time Calculator", desc: "Enter any word count to instantly see the estimated reading time (at 238 wpm) and speaking time (at 130 wpm). Choose from slow, average, fast, or speed-reader presets. Includes a reference table.", link: "/reading-time-calculator" },
+      { name: "Essay Word Counter", desc: "The same full-featured word counter with a student-focused introduction, a reference table of standard essay lengths (from short answers to doctoral dissertations), and essay-specific FAQs.", link: "/essay-word-counter" },
+      { name: "Lorem Ipsum Generator", desc: "Generate Lorem Ipsum placeholder text by paragraph, word count, or sentence count. Toggle the classic opening line on or off. Copy to clipboard or download as a .txt file with one click.", link: "/lorem-ipsum-generator" },
+    ]
+  },
+  {
+    title: "Privacy & Performance",
+    icon: `<svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>`,
+    features: [
+      { name: "100% Client-Side Processing", desc: "Every calculation — word counts, readability scores, keyword analysis, writing analysis highlights — happens entirely inside your browser using JavaScript. Your text is never sent to a server." },
+      { name: "No Account Required", desc: "Free Word Tool requires no sign-up, no login, and no email address. Open the page and start writing or pasting immediately." },
+      { name: "No Data Collection", desc: "We do not collect, store, log, or transmit your text. The only data stored locally is your draft (in localStorage) and your theme preference — both on your own device." },
+      { name: "Instant & Always Free", desc: "All features load instantly with no paywalls, no usage limits, and no premium tier. Everything described on this page is free to use without restriction." },
+    ]
+  },
+];
+---
+
+<Layout
+  title="Features — Free Word Tool"
+  description="Explore every feature of Free Word Tool: live word count, readability scores, writing analysis, keyword density, character limit presets, Lorem Ipsum generator, and more."
+>
+  <!-- Header -->
+  <header class="border-b border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-950 sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <a href="/" class="flex items-center gap-2 group">
+          <svg class="w-8 h-8 text-blue-600" viewBox="0 0 32 32" fill="currentColor">
+            <rect x="2" y="4" width="28" height="24" rx="3" fill="currentColor" opacity="0.15"/>
+            <rect x="6" y="9" width="12" height="2" rx="1" fill="currentColor"/>
+            <rect x="6" y="14" width="20" height="2" rx="1" fill="currentColor"/>
+            <rect x="6" y="19" width="16" height="2" rx="1" fill="currentColor"/>
+          </svg>
+        </a>
+        <nav class="hidden md:flex items-center gap-4 ml-1 text-sm">
+          <a href="/character-counter" class="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Character Counter</a>
+          <a href="/words-to-pages" class="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Words to Pages</a>
+          <a href="/reading-time-calculator" class="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Reading Time</a>
+          <a href="/essay-word-counter" class="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Essay Counter</a>
+          <a href="/lorem-ipsum-generator" class="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Lorem Ipsum</a>
+          <a href="/features" class="text-blue-600 dark:text-blue-400 font-medium">Features</a>
+        </nav>
+      </div>
+      <button id="theme-toggle" aria-label="Toggle dark mode" class="p-2 rounded-lg bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">
+        <svg class="w-5 h-5 hidden dark:block text-yellow-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m8.66-9h-1M4.34 12h-1m15.07-6.07-.71.71M6.34 17.66l-.71.71m12.73 0-.71-.71M6.34 6.34l-.71-.71M12 5a7 7 0 1 1 0 14A7 7 0 0 1 12 5z"/></svg>
+        <svg class="w-5 h-5 block dark:hidden text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M21 12.79A9 9 0 1 1 11.21 3a7 7 0 0 0 9.79 9.79z"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <div class="bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-gray-900 dark:to-gray-800 border-b border-gray-200 dark:border-gray-700">
+    <div class="max-w-4xl mx-auto px-4 py-12 text-center">
+      <h1 class="text-4xl font-bold text-gray-900 dark:text-white mb-3">Everything Free Word Tool Can Do</h1>
+      <p class="text-gray-600 dark:text-gray-400 text-base max-w-2xl mx-auto">A complete breakdown of every feature — all free, all instant, all running in your browser with no signup required.</p>
+      <a href="/" class="inline-flex items-center gap-2 mt-6 px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium transition-colors">
+        Try the tool
+        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+      </a>
+    </div>
+  </div>
+
+  <main class="max-w-4xl mx-auto px-4 py-12">
+    <div class="space-y-12">
+      {groups.map(group => (
+        <section>
+          <div class="flex items-center gap-3 mb-5">
+            <div class="p-2 rounded-xl bg-blue-100 dark:bg-blue-950 text-blue-600 dark:text-blue-400" set:html={group.icon} />
+            <h2 class="text-xl font-bold text-gray-900 dark:text-white">{group.title}</h2>
+          </div>
+          <ul class="space-y-4">
+            {group.features.map(f => (
+              <li class="flex gap-3">
+                <svg class="w-5 h-5 text-blue-500 flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+                <div>
+                  {f.link
+                    ? <a href={f.link} class="font-semibold text-gray-900 dark:text-white hover:text-blue-600 dark:hover:text-blue-400 transition-colors">{f.name} ↗</a>
+                    : <span class="font-semibold text-gray-900 dark:text-white">{f.name}</span>
+                  }
+                  <p class="text-gray-600 dark:text-gray-400 text-sm mt-0.5 leading-relaxed">{f.desc}</p>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </section>
+      ))}
+    </div>
+
+    <div class="mt-14 rounded-2xl bg-blue-50 dark:bg-blue-950 border border-blue-200 dark:border-blue-800 p-8 text-center">
+      <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-2">Ready to try it?</h2>
+      <p class="text-gray-600 dark:text-gray-400 text-sm mb-5">Paste your text and all features activate instantly — no account, no setup, no limits.</p>
+      <a href="/" class="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-medium transition-colors">
+        Open Free Word Tool
+        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+      </a>
+    </div>
+  </main>
+
+  <footer class="border-t border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-gray-900 mt-12">
+    <div class="max-w-7xl mx-auto px-4 py-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-sm text-gray-500 dark:text-gray-400">
+      <p>&copy; 2026 <a href="https://www.builtbyswami.com/" target="_blank" rel="noopener noreferrer" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">BuiltbySwami</a>. All rights reserved.</p>
+      <nav class="flex gap-4 flex-wrap justify-center">
+        <a href="/character-counter" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Character Counter</a>
+        <a href="/words-to-pages" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Words to Pages</a>
+        <a href="/reading-time-calculator" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Reading Time</a>
+        <a href="/essay-word-counter" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Essay Counter</a>
+        <a href="/lorem-ipsum-generator" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Lorem Ipsum</a>
+        <a href="/features" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Features</a>
+        <a href="/privacy" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Privacy</a>
+      </nav>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById('theme-toggle')?.addEventListener('click', () => {
+      const isDark = document.documentElement.classList.toggle('dark');
+      localStorage.setItem('theme', isDark ? 'dark' : 'light');
+    });
+  </script>
+</Layout>
