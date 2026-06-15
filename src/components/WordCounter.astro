@@ -1,0 +1,378 @@
+---
+export interface Props {
+  heading?: string;
+}
+const { heading = "Word Counter" } = Astro.props;
+---
+
+<div class="flex flex-col min-h-screen">
+  <!-- Header -->
+  <header class="border-b border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-950 sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <a href="/" class="flex items-center gap-2 group">
+          <svg class="w-8 h-8 text-blue-600" viewBox="0 0 32 32" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <rect x="2" y="4" width="28" height="24" rx="3" fill="currentColor" opacity="0.15"/>
+            <rect x="6" y="9" width="12" height="2" rx="1" fill="currentColor"/>
+            <rect x="6" y="14" width="20" height="2" rx="1" fill="currentColor"/>
+            <rect x="6" y="19" width="16" height="2" rx="1" fill="currentColor"/>
+          </svg>
+          <span class="font-bold text-xl text-blue-600 group-hover:text-blue-700 transition-colors">WordCount</span>
+        </a>
+        <nav class="hidden sm:flex items-center gap-4 ml-4 text-sm">
+          <a href="/" class="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Word Counter</a>
+          <a href="/character-counter" class="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Character Counter</a>
+          <a href="/privacy" class="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Privacy</a>
+        </nav>
+      </div>
+      <button
+        id="theme-toggle"
+        aria-label="Toggle dark mode"
+        class="p-2 rounded-lg bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
+      >
+        <svg id="icon-sun" class="w-5 h-5 hidden dark:block text-yellow-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m8.66-9h-1M4.34 12h-1m15.07-6.07-.71.71M6.34 17.66l-.71.71m12.73 0-.71-.71M6.34 6.34l-.71-.71M12 5a7 7 0 1 1 0 14A7 7 0 0 1 12 5z"/>
+        </svg>
+        <svg id="icon-moon" class="w-5 h-5 block dark:hidden text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M21 12.79A9 9 0 1 1 11.21 3a7 7 0 0 0 9.79 9.79z"/>
+        </svg>
+      </button>
+    </div>
+  </header>
+
+  <!-- Hero Title -->
+  <div class="bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-gray-900 dark:to-gray-800 border-b border-gray-200 dark:border-gray-700">
+    <div class="max-w-7xl mx-auto px-4 py-6">
+      <h1 class="text-3xl font-bold text-gray-900 dark:text-white">{heading}</h1>
+      <p class="text-gray-600 dark:text-gray-400 mt-1 text-sm">Type or paste text below to instantly count words, characters, sentences, and more.</p>
+    </div>
+  </div>
+
+  <!-- Main Tool Area -->
+  <main class="flex-1 max-w-7xl mx-auto w-full px-4 py-6">
+    <!-- Character Limit Bar -->
+    <div class="mb-4 p-3 rounded-xl bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700">
+      <div class="flex flex-wrap items-center gap-2">
+        <span class="text-sm font-medium text-gray-700 dark:text-gray-300 mr-1">Character limit:</span>
+        <button data-limit="0" class="limit-btn px-3 py-1 text-xs rounded-full border border-gray-300 dark:border-gray-600 hover:border-blue-500 hover:text-blue-600 transition-colors bg-white dark:bg-gray-800">Off</button>
+        <button data-limit="280" class="limit-btn px-3 py-1 text-xs rounded-full border border-gray-300 dark:border-gray-600 hover:border-blue-500 hover:text-blue-600 transition-colors bg-white dark:bg-gray-800">Twitter (280)</button>
+        <button data-limit="160" class="limit-btn px-3 py-1 text-xs rounded-full border border-gray-300 dark:border-gray-600 hover:border-blue-500 hover:text-blue-600 transition-colors bg-white dark:bg-gray-800">Meta Description (160)</button>
+        <button data-limit="3000" class="limit-btn px-3 py-1 text-xs rounded-full border border-gray-300 dark:border-gray-600 hover:border-blue-500 hover:text-blue-600 transition-colors bg-white dark:bg-gray-800">LinkedIn (3000)</button>
+        <div class="ml-auto flex items-center gap-2">
+          <span id="limit-status" class="hidden text-xs font-semibold"></span>
+        </div>
+      </div>
+      <div id="limit-bar-container" class="hidden mt-2">
+        <div class="flex items-center justify-between text-xs text-gray-500 dark:text-gray-400 mb-1">
+          <span id="limit-chars-used">0</span>
+          <span id="limit-chars-max">/ 280</span>
+        </div>
+        <div class="w-full h-2 rounded-full bg-gray-200 dark:bg-gray-700">
+          <div id="limit-bar" class="h-2 rounded-full bg-blue-500 transition-all duration-200" style="width:0%"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Editor + Stats -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
+      <!-- Textarea -->
+      <div class="lg:col-span-2 flex flex-col">
+        <div class="relative flex-1">
+          <textarea
+            id="text-input"
+            placeholder="Start typing or paste your text here…"
+            spellcheck="true"
+            class="w-full h-80 lg:h-[520px] p-4 text-base leading-relaxed rounded-xl border-2 border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-600 resize-none focus:outline-none focus:border-blue-500 dark:focus:border-blue-500 transition-colors font-sans"
+          ></textarea>
+          <button
+            id="clear-btn"
+            class="absolute top-3 right-3 p-1.5 rounded-lg text-gray-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-950 transition-colors opacity-0"
+            aria-label="Clear text"
+          >
+            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+            </svg>
+          </button>
+        </div>
+        <div class="mt-2 flex gap-2 flex-wrap">
+          <button id="copy-btn" class="px-3 py-1.5 text-xs rounded-lg border border-gray-200 dark:border-gray-700 hover:border-blue-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors bg-white dark:bg-gray-900">Copy text</button>
+          <button id="download-btn" class="px-3 py-1.5 text-xs rounded-lg border border-gray-200 dark:border-gray-700 hover:border-blue-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors bg-white dark:bg-gray-900">Download .txt</button>
+        </div>
+      </div>
+
+      <!-- Stats Panel -->
+      <div class="flex flex-col gap-3">
+        <!-- Primary stats -->
+        <div class="grid grid-cols-2 gap-3">
+          <div class="stat-card p-4 rounded-xl bg-blue-600 text-white shadow-sm">
+            <div id="stat-words" class="text-3xl font-bold">0</div>
+            <div class="text-xs text-blue-200 mt-0.5 uppercase tracking-wide">Words</div>
+          </div>
+          <div class="stat-card p-4 rounded-xl bg-indigo-600 text-white shadow-sm">
+            <div id="stat-chars" class="text-3xl font-bold">0</div>
+            <div class="text-xs text-indigo-200 mt-0.5 uppercase tracking-wide">Characters</div>
+          </div>
+          <div class="stat-card p-4 rounded-xl bg-gray-100 dark:bg-gray-800 shadow-sm">
+            <div id="stat-chars-no-space" class="text-3xl font-bold text-gray-800 dark:text-white">0</div>
+            <div class="text-xs text-gray-500 dark:text-gray-400 mt-0.5 uppercase tracking-wide">No Spaces</div>
+          </div>
+          <div class="stat-card p-4 rounded-xl bg-gray-100 dark:bg-gray-800 shadow-sm">
+            <div id="stat-sentences" class="text-3xl font-bold text-gray-800 dark:text-white">0</div>
+            <div class="text-xs text-gray-500 dark:text-gray-400 mt-0.5 uppercase tracking-wide">Sentences</div>
+          </div>
+          <div class="stat-card p-4 rounded-xl bg-gray-100 dark:bg-gray-800 shadow-sm">
+            <div id="stat-paragraphs" class="text-3xl font-bold text-gray-800 dark:text-white">0</div>
+            <div class="text-xs text-gray-500 dark:text-gray-400 mt-0.5 uppercase tracking-wide">Paragraphs</div>
+          </div>
+          <div class="stat-card p-4 rounded-xl bg-gray-100 dark:bg-gray-800 shadow-sm">
+            <div id="stat-lines" class="text-3xl font-bold text-gray-800 dark:text-white">0</div>
+            <div class="text-xs text-gray-500 dark:text-gray-400 mt-0.5 uppercase tracking-wide">Lines</div>
+          </div>
+        </div>
+
+        <!-- Reading/Speaking Time -->
+        <div class="p-4 rounded-xl bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700">
+          <h2 class="text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400 mb-3">Time Estimates</h2>
+          <div class="flex flex-col gap-2">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-2">
+                <svg class="w-4 h-4 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+                </svg>
+                <span class="text-sm text-gray-600 dark:text-gray-400">Reading time</span>
+              </div>
+              <span id="stat-read-time" class="text-sm font-semibold text-gray-800 dark:text-white">0 sec</span>
+            </div>
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-2">
+                <svg class="w-4 h-4 text-purple-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z"/>
+                </svg>
+                <span class="text-sm text-gray-600 dark:text-gray-400">Speaking time</span>
+              </div>
+              <span id="stat-speak-time" class="text-sm font-semibold text-gray-800 dark:text-white">0 sec</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Top Keywords -->
+        <div class="p-4 rounded-xl bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 flex-1">
+          <h2 class="text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400 mb-3">Top Keywords</h2>
+          <div id="keyword-list" class="flex flex-col gap-1.5">
+            <p class="text-xs text-gray-400 dark:text-gray-600 italic">Start typing to see keywords…</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<style>
+  .stat-card { transition: transform 0.1s ease; }
+  .stat-card:hover { transform: translateY(-1px); }
+  .limit-btn.active {
+    background-color: rgb(37 99 235);
+    color: white;
+    border-color: rgb(37 99 235);
+  }
+  #text-input.over-limit {
+    border-color: rgb(239 68 68) !important;
+  }
+</style>
+
+<script>
+const STOP_WORDS = new Set([
+  'a','an','the','and','or','but','in','on','at','to','for','of','with','by',
+  'from','is','it','its','was','are','were','be','been','being','have','has',
+  'had','do','does','did','will','would','could','should','may','might','shall',
+  'not','no','nor','so','yet','both','either','neither','as','if','then','than',
+  'that','this','these','those','i','me','my','we','our','you','your','he','she',
+  'him','her','they','them','their','us','who','what','which','when','where','why',
+  'how','all','any','each','few','more','most','other','some','such','into','up',
+  'out','about','after','before','during','between','through','over','under','also',
+  'just','because','while','although','however','therefore','there','here','can',
+  'get','got','use','make','like','go','know','take','see','come','think','look',
+  'want','give','back','new','old','s','re','t','ll','ve','d','m'
+]);
+
+function formatTime(minutes) {
+  if (minutes < 1) {
+    const secs = Math.round(minutes * 60);
+    return secs <= 0 ? '0 sec' : `${secs} sec`;
+  }
+  const mins = Math.floor(minutes);
+  const secs = Math.round((minutes - mins) * 60);
+  if (secs === 0) return `${mins} min`;
+  return `${mins} min ${secs} sec`;
+}
+
+function countWords(text) {
+  const trimmed = text.trim();
+  if (!trimmed) return 0;
+  return trimmed.split(/\s+/).filter(w => w.length > 0).length;
+}
+
+function countSentences(text) {
+  const trimmed = text.trim();
+  if (!trimmed) return 0;
+  const matches = trimmed.match(/[^.!?]*[.!?]+/g);
+  return matches ? matches.length : (trimmed.length > 0 ? 1 : 0);
+}
+
+function countParagraphs(text) {
+  const trimmed = text.trim();
+  if (!trimmed) return 0;
+  return trimmed.split(/\n\s*\n/).filter(p => p.trim().length > 0).length;
+}
+
+function countLines(text) {
+  if (!text.trim()) return 0;
+  return text.split('\n').filter(l => l.trim().length > 0).length;
+}
+
+function getKeywords(text) {
+  const words = text.toLowerCase().match(/\b[a-z]{3,}\b/g) || [];
+  const freq = {};
+  for (const w of words) {
+    if (!STOP_WORDS.has(w)) freq[w] = (freq[w] || 0) + 1;
+  }
+  return Object.entries(freq)
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, 5);
+}
+
+let charLimit = 0;
+
+function updateStats() {
+  const text = document.getElementById('text-input').value;
+  const words = countWords(text);
+  const chars = text.length;
+  const charsNoSpace = text.replace(/\s/g, '').length;
+
+  document.getElementById('stat-words').textContent = words.toLocaleString();
+  document.getElementById('stat-chars').textContent = chars.toLocaleString();
+  document.getElementById('stat-chars-no-space').textContent = charsNoSpace.toLocaleString();
+  document.getElementById('stat-sentences').textContent = countSentences(text).toLocaleString();
+  document.getElementById('stat-paragraphs').textContent = countParagraphs(text).toLocaleString();
+  document.getElementById('stat-lines').textContent = countLines(text).toLocaleString();
+  document.getElementById('stat-read-time').textContent = formatTime(words / 238);
+  document.getElementById('stat-speak-time').textContent = formatTime(words / 130);
+
+  // Keywords
+  const keywords = getKeywords(text);
+  const kl = document.getElementById('keyword-list');
+  if (keywords.length === 0) {
+    kl.innerHTML = '<p class="text-xs text-gray-400 dark:text-gray-600 italic">Start typing to see keywords…</p>';
+  } else {
+    const max = keywords[0][1];
+    kl.innerHTML = keywords.map(([word, count]) => {
+      const pct = Math.round((count / max) * 100);
+      return `<div class="keyword-item">
+        <div class="flex items-center justify-between mb-0.5">
+          <span class="text-sm font-medium text-gray-700 dark:text-gray-300 capitalize">${word}</span>
+          <span class="text-xs text-gray-500 dark:text-gray-400">${count}×</span>
+        </div>
+        <div class="w-full h-1.5 rounded-full bg-gray-200 dark:bg-gray-700">
+          <div class="h-1.5 rounded-full bg-blue-500 transition-all duration-300" style="width:${pct}%"></div>
+        </div>
+      </div>`;
+    }).join('');
+  }
+
+  // Limit bar
+  if (charLimit > 0) {
+    const pct = Math.min((chars / charLimit) * 100, 100);
+    const over = chars > charLimit;
+    document.getElementById('limit-chars-used').textContent = chars.toLocaleString();
+    const bar = document.getElementById('limit-bar');
+    bar.style.width = pct + '%';
+    bar.className = `h-2 rounded-full transition-all duration-200 ${over ? 'bg-red-500' : pct > 80 ? 'bg-yellow-500' : 'bg-blue-500'}`;
+    const ta = document.getElementById('text-input');
+    if (over) {
+      ta.classList.add('over-limit');
+    } else {
+      ta.classList.remove('over-limit');
+    }
+    const status = document.getElementById('limit-status');
+    if (over) {
+      status.textContent = `${(chars - charLimit).toLocaleString()} over limit`;
+      status.className = 'text-xs font-semibold text-red-600 dark:text-red-400';
+      status.classList.remove('hidden');
+    } else {
+      const remaining = charLimit - chars;
+      status.textContent = `${remaining.toLocaleString()} left`;
+      status.className = 'text-xs font-semibold text-green-600 dark:text-green-400';
+      status.classList.remove('hidden');
+    }
+  } else {
+    document.getElementById('text-input').classList.remove('over-limit');
+    document.getElementById('limit-status').classList.add('hidden');
+  }
+
+  // Clear btn visibility
+  const clearBtn = document.getElementById('clear-btn');
+  if (text.length > 0) {
+    clearBtn.classList.remove('opacity-0');
+  } else {
+    clearBtn.classList.add('opacity-0');
+  }
+}
+
+// Textarea input
+document.getElementById('text-input').addEventListener('input', updateStats);
+
+// Clear btn
+document.getElementById('clear-btn').addEventListener('click', () => {
+  document.getElementById('text-input').value = '';
+  updateStats();
+});
+
+// Copy btn
+document.getElementById('copy-btn').addEventListener('click', async () => {
+  const text = document.getElementById('text-input').value;
+  if (!text) return;
+  await navigator.clipboard.writeText(text);
+  const btn = document.getElementById('copy-btn');
+  btn.textContent = 'Copied!';
+  setTimeout(() => { btn.textContent = 'Copy text'; }, 2000);
+});
+
+// Download btn
+document.getElementById('download-btn').addEventListener('click', () => {
+  const text = document.getElementById('text-input').value;
+  if (!text) return;
+  const blob = new Blob([text], { type: 'text/plain' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'wordcount-text.txt';
+  a.click();
+  URL.revokeObjectURL(url);
+});
+
+// Limit buttons
+document.querySelectorAll('.limit-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    charLimit = parseInt(btn.dataset.limit || '0', 10);
+    document.querySelectorAll('.limit-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const container = document.getElementById('limit-bar-container');
+    if (charLimit > 0) {
+      container.classList.remove('hidden');
+      document.getElementById('limit-chars-max').textContent = `/ ${charLimit.toLocaleString()}`;
+    } else {
+      container.classList.add('hidden');
+    }
+    updateStats();
+  });
+});
+
+// Theme toggle
+document.getElementById('theme-toggle').addEventListener('click', () => {
+  const isDark = document.documentElement.classList.toggle('dark');
+  localStorage.setItem('theme', isDark ? 'dark' : 'light');
+});
+
+// Initial call
+updateStats();
+</script>

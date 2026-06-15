@@ -1,0 +1,101 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout
+  title="Privacy Policy — WordCount"
+  description="Privacy policy for WordCount. Learn how we handle your data — spoiler: we don't collect any."
+>
+  <header class="border-b border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-950">
+    <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
+      <a href="/" class="flex items-center gap-2 group">
+        <svg class="w-8 h-8 text-blue-600" viewBox="0 0 32 32" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+          <rect x="2" y="4" width="28" height="24" rx="3" fill="currentColor" opacity="0.15"/>
+          <rect x="6" y="9" width="12" height="2" rx="1" fill="currentColor"/>
+          <rect x="6" y="14" width="20" height="2" rx="1" fill="currentColor"/>
+          <rect x="6" y="19" width="16" height="2" rx="1" fill="currentColor"/>
+        </svg>
+        <span class="font-bold text-xl text-blue-600 group-hover:text-blue-700 transition-colors">WordCount</span>
+      </a>
+      <button
+        id="theme-toggle"
+        aria-label="Toggle dark mode"
+        class="p-2 rounded-lg bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
+      >
+        <svg id="icon-sun" class="w-5 h-5 hidden dark:block text-yellow-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m8.66-9h-1M4.34 12h-1m15.07-6.07-.71.71M6.34 17.66l-.71.71m12.73 0-.71-.71M6.34 6.34l-.71-.71M12 5a7 7 0 1 1 0 14A7 7 0 0 1 12 5z"/>
+        </svg>
+        <svg id="icon-moon" class="w-5 h-5 block dark:hidden text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M21 12.79A9 9 0 1 1 11.21 3a7 7 0 0 0 9.79 9.79z"/>
+        </svg>
+      </button>
+    </div>
+  </header>
+
+  <main class="max-w-3xl mx-auto px-4 py-12">
+    <h1 class="text-3xl font-bold text-gray-900 dark:text-white mb-2">Privacy Policy</h1>
+    <p class="text-gray-500 dark:text-gray-400 text-sm mb-8">Last updated: June 15, 2025</p>
+
+    <div class="prose prose-gray dark:prose-invert max-w-none space-y-8 text-gray-700 dark:text-gray-300 leading-relaxed">
+
+      <section>
+        <h2 class="text-xl font-semibold text-gray-900 dark:text-white mb-3">1. Overview</h2>
+        <p>WordCount ("we," "our," or "the tool") is a free, client-side text analysis tool. We are committed to protecting your privacy. This policy explains what data we collect, how we use it, and your rights.</p>
+        <p class="mt-2 font-medium text-blue-700 dark:text-blue-400">Short version: We don't collect, store, or transmit your text. Ever.</p>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-semibold text-gray-900 dark:text-white mb-3">2. Your Text Data</h2>
+        <p>All text you type or paste into WordCount is processed entirely within your web browser using JavaScript. No text is ever sent to our servers (we don't have application servers), stored in a database, logged, or shared with any third party. When you close or navigate away from the page, the text is gone.</p>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-semibold text-gray-900 dark:text-white mb-3">3. Cookies & Local Storage</h2>
+        <p>We use <code class="bg-gray-100 dark:bg-gray-800 px-1 rounded text-sm">localStorage</code> solely to save your dark/light mode preference. This data stays on your device and is never sent anywhere. We do not use tracking cookies or advertising cookies.</p>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-semibold text-gray-900 dark:text-white mb-3">4. Analytics</h2>
+        <p>We may use privacy-friendly, cookieless analytics (e.g., page view counts) to understand how many visitors use the tool. If enabled, these analytics do not track individual users, do not use cookies, and do not collect personally identifiable information.</p>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-semibold text-gray-900 dark:text-white mb-3">5. Third-Party Services</h2>
+        <p>WordCount does not embed third-party advertising, social media pixels, or tracking scripts. We do not sell, rent, or share any data with third parties because we do not collect any.</p>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-semibold text-gray-900 dark:text-white mb-3">6. Children's Privacy</h2>
+        <p>WordCount is a general-purpose utility suitable for all ages. We do not knowingly collect personal information from anyone, including children under the age of 13.</p>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-semibold text-gray-900 dark:text-white mb-3">7. Changes to This Policy</h2>
+        <p>We may update this privacy policy occasionally. Changes will be reflected on this page with an updated date. We encourage you to review this policy periodically.</p>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-semibold text-gray-900 dark:text-white mb-3">8. Contact</h2>
+        <p>If you have questions about this privacy policy, please reach out via the GitHub repository or the contact information on our site.</p>
+      </section>
+    </div>
+  </main>
+
+  <footer class="border-t border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-gray-900 mt-12">
+    <div class="max-w-7xl mx-auto px-4 py-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-sm text-gray-500 dark:text-gray-400">
+      <p>&copy; {new Date().getFullYear()} WordCount. All rights reserved.</p>
+      <nav class="flex gap-4">
+        <a href="/" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Word Counter</a>
+        <a href="/character-counter" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Character Counter</a>
+        <a href="/privacy" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Privacy Policy</a>
+      </nav>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById('theme-toggle')?.addEventListener('click', () => {
+      const isDark = document.documentElement.classList.toggle('dark');
+      localStorage.setItem('theme', isDark ? 'dark' : 'light');
+    });
+  </script>
+</Layout>

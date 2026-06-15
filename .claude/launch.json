@@ -1,0 +1,12 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "word-counter",
+      "runtimeExecutable": "/bin/sh",
+      "runtimeArgs": ["/tmp/wc-start.sh"],
+      "port": 4321,
+      "autoPort": true
+    }
+  ]
+}
