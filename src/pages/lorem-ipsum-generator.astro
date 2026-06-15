@@ -1,0 +1,303 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const faqs = [
+  {
+    q: "What is Lorem Ipsum?",
+    a: "Lorem Ipsum is placeholder text commonly used in graphic design, publishing, and web development. It has been the industry standard dummy text since the 1500s, when an unknown printer scrambled a passage of Latin to create a type specimen book. It is used because it has a natural distribution of letters and looks like readable English without being distracting."
+  },
+  {
+    q: "Where does Lorem Ipsum come from?",
+    a: "Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of 'de Finibus Bonorum et Malorum' (On the Ends of Good and Evil) by Cicero, written in 45 BC. The standard Lorem Ipsum passage has been used since the 1500s and was popularised in the 1960s with the release of Letraset sheets."
+  },
+  {
+    q: "Is Lorem Ipsum real Latin?",
+    a: "Lorem Ipsum is derived from Latin but is not grammatically correct or meaningful Latin. The words have been scrambled and altered so that the text is not distracting — readers won't focus on its meaning and can instead evaluate the layout and typography of a design."
+  },
+  {
+    q: "Why do designers use Lorem Ipsum?",
+    a: "Designers use Lorem Ipsum so that clients and reviewers focus on the visual design rather than the content. Real text can distract reviewers into editing copy instead of evaluating layout. Lorem Ipsum fills space naturally without drawing attention to itself."
+  },
+  {
+    q: "Can I use Lorem Ipsum in production?",
+    a: "No — Lorem Ipsum should only be used as a placeholder during the design or development phase. It should always be replaced with real, meaningful content before a website or document goes live. Search engines cannot index meaningless placeholder text."
+  },
+  {
+    q: "How many words is a Lorem Ipsum paragraph?",
+    a: "A standard Lorem Ipsum paragraph is typically 50–75 words long. The classic opening paragraph ('Lorem ipsum dolor sit amet...') is about 69 words. This generator lets you control whether you want output by paragraphs, word count, or sentence count."
+  },
+  {
+    q: "What does 'Lorem ipsum dolor sit amet' mean?",
+    a: "'Lorem ipsum dolor sit amet' roughly translates from Latin as 'Pain itself, because it is pain, sometimes.' The phrase is a garbled extract from Cicero's philosophical work and has no coherent meaning in context — which is exactly the point."
+  },
+  {
+    q: "Is there a Lorem Ipsum alternative?",
+    a: "Yes. Common alternatives include Cupcake Ipsum (food-themed), Hipster Ipsum, and Bacon Ipsum. For development purposes, many teams use realistic dummy data instead. However, classic Lorem Ipsum remains the most widely recognised and universally accepted placeholder text."
+  }
+];
+---
+
+<Layout
+  title="Lorem Ipsum Generator — Free Placeholder Text Generator"
+  description="Generate Lorem Ipsum placeholder text instantly. Choose paragraphs, words, or sentences. Free, fast, and works entirely in your browser."
+>
+  <!-- Header -->
+  <header class="border-b border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-950 sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <a href="/" class="flex items-center gap-2 group">
+          <svg class="w-8 h-8 text-blue-600" viewBox="0 0 32 32" fill="currentColor">
+            <rect x="2" y="4" width="28" height="24" rx="3" fill="currentColor" opacity="0.15"/>
+            <rect x="6" y="9" width="12" height="2" rx="1" fill="currentColor"/>
+            <rect x="6" y="14" width="20" height="2" rx="1" fill="currentColor"/>
+            <rect x="6" y="19" width="16" height="2" rx="1" fill="currentColor"/>
+          </svg>
+        </a>
+        <nav class="hidden md:flex items-center gap-4 ml-1 text-sm">
+          <a href="/character-counter" class="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Character Counter</a>
+          <a href="/words-to-pages" class="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Words to Pages</a>
+          <a href="/reading-time-calculator" class="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Reading Time</a>
+          <a href="/essay-word-counter" class="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Essay Counter</a>
+          <a href="/lorem-ipsum-generator" class="text-blue-600 dark:text-blue-400 font-medium">Lorem Ipsum</a>
+        </nav>
+      </div>
+      <button id="theme-toggle" aria-label="Toggle dark mode" class="p-2 rounded-lg bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">
+        <svg class="w-5 h-5 hidden dark:block text-yellow-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m8.66-9h-1M4.34 12h-1m15.07-6.07-.71.71M6.34 17.66l-.71.71m12.73 0-.71-.71M6.34 6.34l-.71-.71M12 5a7 7 0 1 1 0 14A7 7 0 0 1 12 5z"/></svg>
+        <svg class="w-5 h-5 block dark:hidden text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M21 12.79A9 9 0 1 1 11.21 3a7 7 0 0 0 9.79 9.79z"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <div class="bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-gray-900 dark:to-gray-800 border-b border-gray-200 dark:border-gray-700">
+    <div class="max-w-7xl mx-auto px-4 py-8">
+      <h1 class="text-3xl font-bold text-gray-900 dark:text-white">Lorem Ipsum Generator</h1>
+      <p class="text-gray-600 dark:text-gray-400 mt-2 text-sm max-w-xl">Generate Lorem Ipsum placeholder text by paragraphs, words, or sentences. Copy with one click.</p>
+    </div>
+  </div>
+
+  <main class="max-w-4xl mx-auto px-4 py-10">
+
+    <!-- Generator Card -->
+    <div class="bg-white dark:bg-gray-900 rounded-2xl border border-gray-200 dark:border-gray-700 p-6 mb-10 shadow-sm">
+
+      <!-- Controls -->
+      <div class="flex flex-col sm:flex-row gap-4 mb-5">
+        <!-- Type toggle -->
+        <div>
+          <label class="block text-xs font-medium text-gray-600 dark:text-gray-400 mb-1.5 uppercase tracking-wide">Generate by</label>
+          <div class="flex rounded-lg overflow-hidden border border-gray-200 dark:border-gray-600 text-sm">
+            <button id="btn-paragraphs" class="px-4 py-2 font-medium bg-blue-600 text-white transition-colors">Paragraphs</button>
+            <button id="btn-words"      class="px-4 py-2 font-medium bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors border-l border-gray-200 dark:border-gray-600">Words</button>
+            <button id="btn-sentences"  class="px-4 py-2 font-medium bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors border-l border-gray-200 dark:border-gray-600">Sentences</button>
+          </div>
+        </div>
+
+        <!-- Amount -->
+        <div>
+          <label for="li-amount" class="block text-xs font-medium text-gray-600 dark:text-gray-400 mb-1.5 uppercase tracking-wide">Amount</label>
+          <input
+            id="li-amount"
+            type="number"
+            min="1"
+            max="50"
+            value="5"
+            class="w-24 px-3 py-2 rounded-lg border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-gray-100 text-sm focus:outline-none focus:border-blue-500 transition-colors"
+          />
+        </div>
+
+        <!-- Classic opener -->
+        <div class="flex items-end pb-0.5">
+          <label class="flex items-center gap-2 cursor-pointer text-sm text-gray-600 dark:text-gray-400 select-none">
+            <input id="li-classic" type="checkbox" checked class="w-4 h-4 accent-blue-600 cursor-pointer" />
+            Start with "Lorem ipsum…"
+          </label>
+        </div>
+
+        <!-- Generate button -->
+        <div class="flex items-end sm:ml-auto">
+          <button id="li-generate" class="px-5 py-2 rounded-lg bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium transition-colors">
+            Generate
+          </button>
+        </div>
+      </div>
+
+      <!-- Output -->
+      <div class="relative">
+        <textarea
+          id="li-output"
+          readonly
+          rows="12"
+          placeholder="Your Lorem Ipsum text will appear here…"
+          class="w-full rounded-xl border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-800 text-gray-700 dark:text-gray-300 text-sm leading-relaxed p-4 resize-none focus:outline-none focus:border-blue-500 transition-colors"
+        ></textarea>
+
+        <!-- Stats bar -->
+        <div id="li-stats" class="hidden mt-2 flex items-center justify-between text-xs text-gray-400 dark:text-gray-500 px-1">
+          <span id="li-stat-text"></span>
+          <button id="li-copy" class="flex items-center gap-1.5 text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-medium transition-colors">
+            <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+            <span id="li-copy-label">Copy text</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- FAQ -->
+    <section>
+      <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-2">Frequently Asked Questions</h2>
+      <p class="text-gray-600 dark:text-gray-400 mb-6 text-sm">Everything you need to know about Lorem Ipsum placeholder text.</p>
+      <div class="space-y-3">
+        {faqs.map((faq, i) => (
+          <details class="group border border-gray-200 dark:border-gray-700 rounded-xl overflow-hidden" open={i === 0}>
+            <summary class="flex items-center justify-between p-5 cursor-pointer bg-gray-50 dark:bg-gray-900 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors list-none">
+              <span class="font-medium text-gray-900 dark:text-white pr-4">{faq.q}</span>
+              <svg class="w-5 h-5 text-gray-400 flex-shrink-0 transition-transform duration-200 group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+            </summary>
+            <div class="px-5 pb-5 pt-3 bg-white dark:bg-gray-950 text-gray-600 dark:text-gray-400 text-sm leading-relaxed">{faq.a}</div>
+          </details>
+        ))}
+      </div>
+    </section>
+  </main>
+
+  <footer class="border-t border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-gray-900 mt-12">
+    <div class="max-w-7xl mx-auto px-4 py-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-sm text-gray-500 dark:text-gray-400">
+      <p>&copy; 2026 BuiltbySwami. All rights reserved.</p>
+      <nav class="flex gap-4 flex-wrap justify-center">
+        <a href="/character-counter" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Character Counter</a>
+        <a href="/words-to-pages" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Words to Pages</a>
+        <a href="/reading-time-calculator" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Reading Time</a>
+        <a href="/essay-word-counter" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Essay Counter</a>
+        <a href="/lorem-ipsum-generator" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Lorem Ipsum</a>
+        <a href="/privacy" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Privacy</a>
+      </nav>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById('theme-toggle')?.addEventListener('click', () => {
+      const isDark = document.documentElement.classList.toggle('dark');
+      localStorage.setItem('theme', isDark ? 'dark' : 'light');
+    });
+
+    // --- Lorem Ipsum word pool ---
+    const WORDS = [
+      'lorem','ipsum','dolor','sit','amet','consectetur','adipiscing','elit','sed','do',
+      'eiusmod','tempor','incididunt','ut','labore','et','dolore','magna','aliqua','enim',
+      'ad','minim','veniam','quis','nostrud','exercitation','ullamco','laboris','nisi','aliquip',
+      'ex','ea','commodo','consequat','duis','aute','irure','in','reprehenderit','voluptate',
+      'velit','esse','cillum','fugiat','nulla','pariatur','excepteur','sint','occaecat','cupidatat',
+      'non','proident','sunt','culpa','qui','officia','deserunt','mollit','anim','id','est','laborum',
+      'pellentesque','habitant','morbi','tristique','senectus','netus','malesuada','fames','turpis',
+      'egestas','volutpat','ac','adipiscing','vitae','proin','nibh','nisl','condimentum','id',
+      'venenatis','a','condimentum','vitae','sapien','pellentesque','habitant','morbi','tristique',
+      'senectus','netus','malesuada','fames','turpis','egestas','sed','tempus','urna','et','pharetra',
+      'pharetra','massa','massa','ultricies','mi','quis','hendrerit','dolor','magna','eget','est',
+      'lorem','ipsum','dolor','sit','amet','consectetur','adipiscing','elit','pellentesque','diam',
+      'volutpat','commodo','sed','egestas','egestas','fringilla','phasellus','faucibus','scelerisque',
+      'eleifend','donec','pretium','vulputate','sapien','nec','sagittis','aliquam','malesuada',
+      'bibendum','arcu','vitae','elementum','curabitur','vitae','nunc','sed','velit','dignissim',
+      'sodales','ut','eu','sem','integer','vitae','justo','eget','magna','fermentum','iaculis',
+      'euismod','purus','in','massa','tempor','nec','feugiat','nisl','pretium','fusce','id',
+      'velit','ut','tortor','pretium','viverra','suspendisse','potenti','nullam','ac','tortor',
+    ];
+
+    const CLASSIC_OPEN = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.';
+
+    let mode = 'paragraphs';
+
+    function randomWord() {
+      return WORDS[Math.floor(Math.random() * WORDS.length)];
+    }
+
+    function capitalize(s: string) {
+      return s.charAt(0).toUpperCase() + s.slice(1);
+    }
+
+    function makeSentence(minW = 6, maxW = 18): string {
+      const len = minW + Math.floor(Math.random() * (maxW - minW));
+      const words = Array.from({ length: len }, randomWord);
+      words[0] = capitalize(words[0]);
+      return words.join(' ') + '.';
+    }
+
+    function makeParagraph(sentenceCount = 4 + Math.floor(Math.random() * 4)): string {
+      return Array.from({ length: sentenceCount }, () => makeSentence()).join(' ');
+    }
+
+    function generate() {
+      const amount  = Math.min(50, Math.max(1, parseInt((document.getElementById('li-amount') as HTMLInputElement).value, 10) || 5));
+      const classic = (document.getElementById('li-classic') as HTMLInputElement).checked;
+      let output = '';
+
+      if (mode === 'paragraphs') {
+        const paras: string[] = [];
+        for (let i = 0; i < amount; i++) {
+          let p = makeParagraph();
+          if (i === 0 && classic) p = CLASSIC_OPEN + ' ' + p;
+          paras.push(p);
+        }
+        output = paras.join('\n\n');
+      } else if (mode === 'words') {
+        const allWords: string[] = [];
+        if (classic) {
+          const classicWords = CLASSIC_OPEN.replace(/[.,]/g, '').split(' ');
+          allWords.push(...classicWords.slice(0, Math.min(amount, classicWords.length)));
+        }
+        while (allWords.length < amount) allWords.push(randomWord());
+        allWords[0] = capitalize(allWords[0]);
+        output = allWords.slice(0, amount).join(' ') + '.';
+      } else {
+        const sentences: string[] = [];
+        if (classic) sentences.push(CLASSIC_OPEN);
+        while (sentences.length < amount) sentences.push(makeSentence());
+        sentences[0] = classic ? CLASSIC_OPEN : capitalize(sentences[0].replace(/^./, c => c.toUpperCase()));
+        output = sentences.slice(0, amount).join(' ');
+      }
+
+      const ta = document.getElementById('li-output') as HTMLTextAreaElement;
+      ta.value = output;
+
+      const wordCount = output.trim().split(/\s+/).length;
+      const charCount = output.length;
+      document.getElementById('li-stat-text')!.textContent = `${wordCount.toLocaleString()} words · ${charCount.toLocaleString()} characters`;
+      document.getElementById('li-stats')!.classList.remove('hidden');
+      resetCopyLabel();
+    }
+
+    function resetCopyLabel() {
+      document.getElementById('li-copy-label')!.textContent = 'Copy text';
+    }
+
+    // Mode toggle buttons
+    ['paragraphs','words','sentences'].forEach(m => {
+      document.getElementById(`btn-${m}`)?.addEventListener('click', () => {
+        mode = m;
+        ['paragraphs','words','sentences'].forEach(x => {
+          const btn = document.getElementById(`btn-${x}`)!;
+          if (x === m) {
+            btn.classList.add('bg-blue-600','text-white');
+            btn.classList.remove('bg-white','dark:bg-gray-800','text-gray-600','dark:text-gray-400','hover:bg-gray-50','dark:hover:bg-gray-700');
+          } else {
+            btn.classList.remove('bg-blue-600','text-white');
+            btn.classList.add('bg-white','dark:bg-gray-800','text-gray-600','dark:text-gray-400','hover:bg-gray-50','dark:hover:bg-gray-700');
+          }
+        });
+      });
+    });
+
+    document.getElementById('li-generate')?.addEventListener('click', generate);
+
+    document.getElementById('li-copy')?.addEventListener('click', async () => {
+      const text = (document.getElementById('li-output') as HTMLTextAreaElement).value;
+      if (!text) return;
+      await navigator.clipboard.writeText(text);
+      document.getElementById('li-copy-label')!.textContent = 'Copied!';
+      setTimeout(resetCopyLabel, 2000);
+    });
+
+    // Generate on load
+    generate();
+  </script>
+</Layout>
