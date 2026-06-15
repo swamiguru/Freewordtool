@@ -52,15 +52,20 @@ const { heading = "Word Counter" } = Astro.props;
   <main class="flex-1 max-w-7xl mx-auto w-full px-4 py-6">
     <!-- Character Limit Bar -->
     <div class="mb-4 p-3 rounded-xl bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700">
-      <div class="flex flex-wrap items-center gap-2">
-        <span class="text-sm font-medium text-gray-700 dark:text-gray-300 mr-1">Character limit:</span>
-        <button data-limit="0" class="limit-btn px-3 py-1 text-xs rounded-full border border-gray-300 dark:border-gray-600 hover:border-blue-500 hover:text-blue-600 transition-colors bg-white dark:bg-gray-800">Off</button>
-        <button data-limit="280" class="limit-btn px-3 py-1 text-xs rounded-full border border-gray-300 dark:border-gray-600 hover:border-blue-500 hover:text-blue-600 transition-colors bg-white dark:bg-gray-800">Twitter (280)</button>
-        <button data-limit="160" class="limit-btn px-3 py-1 text-xs rounded-full border border-gray-300 dark:border-gray-600 hover:border-blue-500 hover:text-blue-600 transition-colors bg-white dark:bg-gray-800">Meta Description (160)</button>
-        <button data-limit="3000" class="limit-btn px-3 py-1 text-xs rounded-full border border-gray-300 dark:border-gray-600 hover:border-blue-500 hover:text-blue-600 transition-colors bg-white dark:bg-gray-800">LinkedIn (3000)</button>
-        <div class="ml-auto flex items-center gap-2">
-          <span id="limit-status" class="hidden text-xs font-semibold"></span>
-        </div>
+      <div class="flex items-center gap-2 mb-2">
+        <span class="text-sm font-medium text-gray-700 dark:text-gray-300 shrink-0">Character limit:</span>
+        <span id="limit-status" class="hidden text-xs font-semibold ml-auto shrink-0"></span>
+      </div>
+      <div class="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-hide">
+        <button data-limit="0"    class="limit-btn shrink-0 px-3 py-1 text-xs rounded-full border border-gray-300 dark:border-gray-600 hover:border-blue-500 hover:text-blue-600 transition-colors bg-white dark:bg-gray-800">Off</button>
+        <button data-limit="60"   class="limit-btn shrink-0 px-3 py-1 text-xs rounded-full border border-gray-300 dark:border-gray-600 hover:border-blue-500 hover:text-blue-600 transition-colors bg-white dark:bg-gray-800">Email Subject (60)</button>
+        <button data-limit="80"   class="limit-btn shrink-0 px-3 py-1 text-xs rounded-full border border-gray-300 dark:border-gray-600 hover:border-blue-500 hover:text-blue-600 transition-colors bg-white dark:bg-gray-800">TikTok Bio (80)</button>
+        <button data-limit="160"  class="limit-btn shrink-0 px-3 py-1 text-xs rounded-full border border-gray-300 dark:border-gray-600 hover:border-blue-500 hover:text-blue-600 transition-colors bg-white dark:bg-gray-800">Meta Description (160)</button>
+        <button data-limit="280"  class="limit-btn shrink-0 px-3 py-1 text-xs rounded-full border border-gray-300 dark:border-gray-600 hover:border-blue-500 hover:text-blue-600 transition-colors bg-white dark:bg-gray-800">Twitter (280)</button>
+        <button data-limit="500"  class="limit-btn shrink-0 px-3 py-1 text-xs rounded-full border border-gray-300 dark:border-gray-600 hover:border-blue-500 hover:text-blue-600 transition-colors bg-white dark:bg-gray-800">Pinterest (500)</button>
+        <button data-limit="2200" class="limit-btn shrink-0 px-3 py-1 text-xs rounded-full border border-gray-300 dark:border-gray-600 hover:border-blue-500 hover:text-blue-600 transition-colors bg-white dark:bg-gray-800">Instagram (2200)</button>
+        <button data-limit="3000" class="limit-btn shrink-0 px-3 py-1 text-xs rounded-full border border-gray-300 dark:border-gray-600 hover:border-blue-500 hover:text-blue-600 transition-colors bg-white dark:bg-gray-800">LinkedIn (3000)</button>
+        <button data-limit="5000" class="limit-btn shrink-0 px-3 py-1 text-xs rounded-full border border-gray-300 dark:border-gray-600 hover:border-blue-500 hover:text-blue-600 transition-colors bg-white dark:bg-gray-800">YouTube Desc (5000)</button>
       </div>
       <div id="limit-bar-container" class="hidden mt-2">
         <div class="flex items-center justify-between text-xs text-gray-500 dark:text-gray-400 mb-1">
@@ -211,9 +216,24 @@ const { heading = "Word Counter" } = Astro.props;
 
         <!-- Top Keywords -->
         <div class="p-4 rounded-xl bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 flex-1">
-          <h2 class="text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400 mb-3">Top Keywords</h2>
+          <!-- Tabs -->
+          <div class="flex gap-1 mb-3">
+            <button id="tab-words" class="kw-tab active-tab px-2.5 py-1 text-xs rounded-md font-medium transition-colors">Words</button>
+            <button id="tab-bigrams" class="kw-tab px-2.5 py-1 text-xs rounded-md font-medium transition-colors">2-Word Phrases</button>
+          </div>
+          <!-- Column headers -->
+          <div class="grid grid-cols-[1fr_auto_auto] gap-x-2 mb-1.5 px-0.5">
+            <span class="text-xs text-gray-400 dark:text-gray-500">Keyword</span>
+            <span class="text-xs text-gray-400 dark:text-gray-500 text-right">Count</span>
+            <span class="text-xs text-gray-400 dark:text-gray-500 text-right">Density</span>
+          </div>
+          <!-- Words panel -->
           <div id="keyword-list" class="flex flex-col gap-1.5">
-            <p class="text-xs text-gray-400 dark:text-gray-600 italic">Start typing to see keywords…</p>
+            <p class="text-xs text-gray-400 dark:text-gray-600 italic col-span-3">Start typing to see keywords…</p>
+          </div>
+          <!-- Bigrams panel -->
+          <div id="bigram-list" class="hidden flex flex-col gap-1.5">
+            <p class="text-xs text-gray-400 dark:text-gray-600 italic">Start typing to see phrases…</p>
           </div>
         </div>
       </div>
@@ -235,6 +255,20 @@ const { heading = "Word Counter" } = Astro.props;
   #draft-badge.show {
     opacity: 1;
   }
+  .kw-tab {
+    color: rgb(107 114 128);
+    background: transparent;
+  }
+  .kw-tab:hover {
+    color: rgb(37 99 235);
+  }
+  .kw-tab.active-tab {
+    background-color: rgb(37 99 235);
+    color: white;
+  }
+  /* Hide scrollbar on chip row but keep scroll */
+  .scrollbar-hide { scrollbar-width: none; }
+  .scrollbar-hide::-webkit-scrollbar { display: none; }
 </style>
 
 <script>
@@ -289,13 +323,33 @@ function countLines(text) {
 
 function getKeywords(text) {
   const words = text.toLowerCase().match(/\b[a-z]{3,}\b/g) || [];
+  const nonStop = words.filter(w => !STOP_WORDS.has(w));
+  const total = nonStop.length;
   const freq = {};
-  for (const w of words) {
-    if (!STOP_WORDS.has(w)) freq[w] = (freq[w] || 0) + 1;
-  }
+  for (const w of nonStop) freq[w] = (freq[w] || 0) + 1;
   return Object.entries(freq)
     .sort((a, b) => b[1] - a[1])
-    .slice(0, 5);
+    .slice(0, 5)
+    .map(([word, count]) => ({ word, count, density: total ? (count / total * 100).toFixed(1) : '0.0' }));
+}
+
+function getBigrams(text) {
+  const words = text.toLowerCase().match(/\b[a-z]{2,}\b/g) || [];
+  const nonStop = [];
+  // Keep all words but track positions to form bigrams from adjacent non-stop content words
+  // Build bigrams from original word sequence (include stops for adjacency, filter stop-stop pairs)
+  const freq = {};
+  for (let i = 0; i < words.length - 1; i++) {
+    const a = words[i], b = words[i + 1];
+    if (STOP_WORDS.has(a) && STOP_WORDS.has(b)) continue;
+    const bigram = `${a} ${b}`;
+    freq[bigram] = (freq[bigram] || 0) + 1;
+  }
+  const total = Object.values(freq).reduce((s, v) => s + v, 0) || 1;
+  return Object.entries(freq)
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, 5)
+    .map(([phrase, count]) => ({ word: phrase, count, density: (count / total * 100).toFixed(1) }));
 }
 
 function countSyllables(word) {
@@ -408,19 +462,20 @@ function updateStats() {
   document.getElementById('stat-read-time').textContent = formatTime(words / 238);
   document.getElementById('stat-speak-time').textContent = formatTime(words / 130);
 
-  // Keywords
+  // Keywords & Bigrams
   const keywords = getKeywords(text);
-  const kl = document.getElementById('keyword-list');
-  if (keywords.length === 0) {
-    kl.innerHTML = '<p class="text-xs text-gray-400 dark:text-gray-600 italic">Start typing to see keywords…</p>';
-  } else {
-    const max = keywords[0][1];
-    kl.innerHTML = keywords.map(([word, count]) => {
-      const pct = Math.round((count / max) * 100);
-      return `<div class="keyword-item">
-        <div class="flex items-center justify-between mb-0.5">
-          <span class="text-sm font-medium text-gray-700 dark:text-gray-300 capitalize">${word}</span>
-          <span class="text-xs text-gray-500 dark:text-gray-400">${count}×</span>
+  const bigrams  = getBigrams(text);
+
+  function renderRows(items, emptyMsg) {
+    if (items.length === 0) return `<p class="text-xs text-gray-400 dark:text-gray-600 italic">${emptyMsg}</p>`;
+    const maxCount = items[0].count;
+    return items.map(({ word, count, density }) => {
+      const pct = Math.round((count / maxCount) * 100);
+      return `<div>
+        <div class="grid grid-cols-[1fr_auto_auto] gap-x-2 items-center mb-0.5">
+          <span class="text-xs font-medium text-gray-700 dark:text-gray-300 truncate capitalize">${word}</span>
+          <span class="text-xs text-gray-500 dark:text-gray-400 text-right tabular-nums">${count}</span>
+          <span class="text-xs text-blue-600 dark:text-blue-400 text-right tabular-nums w-10">${density}%</span>
         </div>
         <div class="w-full h-1.5 rounded-full bg-gray-200 dark:bg-gray-700">
           <div class="h-1.5 rounded-full bg-blue-500 transition-all duration-300" style="width:${pct}%"></div>
@@ -428,6 +483,9 @@ function updateStats() {
       </div>`;
     }).join('');
   }
+
+  document.getElementById('keyword-list').innerHTML = renderRows(keywords, 'Start typing to see keywords…');
+  document.getElementById('bigram-list').innerHTML  = renderRows(bigrams,  'Start typing to see phrases…');
 
   // Limit bar
   if (charLimit > 0) {
@@ -473,6 +531,20 @@ function updateStats() {
     clearBtn.classList.add('opacity-0');
   }
 }
+
+// Keyword tabs
+document.getElementById('tab-words').addEventListener('click', () => {
+  document.getElementById('keyword-list').classList.remove('hidden');
+  document.getElementById('bigram-list').classList.add('hidden');
+  document.getElementById('tab-words').classList.add('active-tab');
+  document.getElementById('tab-bigrams').classList.remove('active-tab');
+});
+document.getElementById('tab-bigrams').addEventListener('click', () => {
+  document.getElementById('bigram-list').classList.remove('hidden');
+  document.getElementById('keyword-list').classList.add('hidden');
+  document.getElementById('tab-bigrams').classList.add('active-tab');
+  document.getElementById('tab-words').classList.remove('active-tab');
+});
 
 // Auto-save to localStorage
 document.getElementById('text-input').addEventListener('input', () => {
