@@ -1,0 +1,58 @@
+{
+  "name": "Free Word Tool",
+  "short_name": "FreeWordTool",
+  "description": "Free online word counter, character counter, readability scores, and writing analysis tools.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#2563eb",
+  "orientation": "any",
+  "scope": "/",
+  "lang": "en",
+  "categories": ["productivity", "utilities", "education"],
+  "icons": [
+    {
+      "src": "/icon-192.svg",
+      "sizes": "192x192",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icon-512.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Word Counter",
+      "url": "/",
+      "description": "Count words in real time"
+    },
+    {
+      "name": "Lorem Ipsum Generator",
+      "url": "/lorem-ipsum-generator",
+      "description": "Generate placeholder text"
+    },
+    {
+      "name": "Reading Time",
+      "url": "/reading-time-calculator",
+      "description": "Calculate reading time"
+    },
+    {
+      "name": "Words to Pages",
+      "url": "/words-to-pages",
+      "description": "Convert word count to pages"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/screenshot-wide.svg",
+      "sizes": "1280x800",
+      "type": "image/svg+xml",
+      "form_factor": "wide",
+      "label": "Free Word Tool — word counter and writing analysis"
+    }
+  ]
+}
