@@ -1,5 +1,7 @@
-const CACHE = 'fwt-v1';
-const SHELL = [
+const CACHE = 'fwt-v8';
+
+// HTML pages — always fetch fresh from network
+const HTML_PAGES = [
   '/',
   '/character-counter',
   '/words-to-pages',
@@ -7,6 +9,10 @@ const SHELL = [
   '/essay-word-counter',
   '/lorem-ipsum-generator',
   '/features',
+];
+
+// Static assets — cache-first for performance
+const STATIC_ASSETS = [
   '/manifest.json',
   '/icon-192.svg',
   '/icon-512.svg',
@@ -15,7 +21,7 @@ const SHELL = [
 
 self.addEventListener('install', e => {
   e.waitUntil(
-    caches.open(CACHE).then(c => c.addAll(SHELL)).then(() => self.skipWaiting())
+    caches.open(CACHE).then(c => c.addAll(STATIC_ASSETS)).then(() => self.skipWaiting())
   );
 });
 
@@ -32,16 +38,33 @@ self.addEventListener('fetch', e => {
   const url = new URL(e.request.url);
   if (url.origin !== location.origin) return;
 
-  e.respondWith(
-    caches.match(e.request).then(cached => {
-      const network = fetch(e.request).then(res => {
+  const pathname = url.pathname.replace(/\/$/, '') || '/';
+  const isHtmlPage = HTML_PAGES.includes(pathname) || HTML_PAGES.includes(pathname + '/');
+
+  if (isHtmlPage) {
+    // Network-first for HTML: always get fresh markup, fall back to cache if offline
+    e.respondWith(
+      fetch(e.request).then(res => {
         if (res.ok) {
           const clone = res.clone();
           caches.open(CACHE).then(c => c.put(e.request, clone));
         }
         return res;
-      });
-      return cached || network;
-    })
-  );
+      }).catch(() => caches.match(e.request))
+    );
+  } else {
+    // Cache-first for assets (JS, CSS, images, fonts)
+    e.respondWith(
+      caches.match(e.request).then(cached => {
+        if (cached) return cached;
+        return fetch(e.request).then(res => {
+          if (res.ok) {
+            const clone = res.clone();
+            caches.open(CACHE).then(c => c.put(e.request, clone));
+          }
+          return res;
+        });
+      })
+    );
+  }
 });

@@ -47,16 +47,27 @@ const essayTypes = [
   { name: "Undergraduate Thesis", words: "8,000–15,000", pages: "32–60", notes: "Senior capstone" },
   { name: "Master's Thesis", words: "15,000–40,000", pages: "60–160", notes: "Postgraduate research" },
 ];
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": faqs.map((faq) => ({
+    "@type": "Question",
+    "name": faq.q,
+    "acceptedAnswer": { "@type": "Answer", "text": faq.a }
+  }))
+};
 ---
 
 <Layout
   title="Essay Word Counter — Free Word Count Tool for Students"
   description="Free essay word counter for students. Track words, characters, sentences, and paragraphs in real time. Includes essay length reference table and FAQ."
+  jsonLd={[faqSchema]}
 >
-  <WordCounter heading="Essay Word Counter" />
-
+  <WordCounter heading="Essay Word Counter">
+    <div slot="below-textarea" class="mt-8">
   <!-- Student intro section -->
-  <section class="max-w-4xl mx-auto px-4 py-10">
+  <section class="max-w-4xl mx-auto px-4 pb-10">
     <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-3">Essay Word Count Guide for Students</h2>
     <p class="text-gray-600 dark:text-gray-400 text-sm leading-relaxed mb-4">
       Use this free essay word counter to track your word count, character count, sentence count, and paragraphs in real time as you write or paste your essay. The tool also shows readability scores, estimated reading time, and keyword frequency — all useful when editing academic work.
@@ -105,13 +116,14 @@ const essayTypes = [
       ))}
     </div>
   </section>
+    </div>
+  </WordCounter>
 
   <!-- Footer -->
   <footer class="border-t border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-gray-900 mt-4">
-    <div class="max-w-7xl mx-auto px-4 py-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-sm text-gray-500 dark:text-gray-400">
-      <p>&copy; 2026 <a href="https://www.builtbyswami.com/" target="_blank" rel="noopener noreferrer" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">BuiltbySwami</a>. All rights reserved.</p>
-      <nav class="flex gap-4 flex-wrap justify-center">
-        <a href="/" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Word Counter</a>
+    <div class="max-w-7xl mx-auto px-4 py-8 sm:py-6 flex flex-col items-center gap-4 text-center sm:flex-row sm:justify-between sm:gap-3 sm:text-left text-sm text-gray-500 dark:text-gray-400">
+      <div><a href="/" class="font-semibold text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Free Word Tool</a><span class="mx-2 text-gray-300 dark:text-gray-600">&middot;</span>&copy; 2026 <a href="https://www.builtbyswami.com/" target="_blank" rel="noopener noreferrer" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">BuiltbySwami</a>. All rights reserved.</div>
+      <nav class="flex flex-wrap items-center justify-center gap-x-5 gap-y-2">
         <a href="/character-counter" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Character Counter</a>
         <a href="/words-to-pages" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Words to Pages</a>
         <a href="/reading-time-calculator" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Reading Time</a>
@@ -119,6 +131,7 @@ const essayTypes = [
         <a href="/lorem-ipsum-generator" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Lorem Ipsum</a>
         <a href="/features" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Features</a>
         <a href="/privacy" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Privacy</a>
+        <a href="/contact-us" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Contact Us</a>
       </nav>
     </div>
   </footer>

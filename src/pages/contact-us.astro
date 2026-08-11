@@ -1,0 +1,118 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout
+  title="Contact Us — Free Word Tool"
+  description="Get in touch with the developer behind Free Word Tool. Reach out by email with questions, feedback, or bug reports."
+>
+  <header class="border-b border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-950">
+    <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
+      <a href="/" class="flex items-center gap-2 group">
+        <svg class="w-8 h-8 text-blue-600" viewBox="0 0 32 32" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+          <rect x="2" y="4" width="28" height="24" rx="3" fill="currentColor" opacity="0.15"/>
+          <rect x="6" y="9" width="12" height="2" rx="1" fill="currentColor"/>
+          <rect x="6" y="14" width="20" height="2" rx="1" fill="currentColor"/>
+          <rect x="6" y="19" width="16" height="2" rx="1" fill="currentColor"/>
+        </svg>
+        <span class="font-bold text-xl text-blue-600 group-hover:text-blue-700 transition-colors">Free Word Tool</span>
+      </a>
+      <nav class="hidden md:flex items-center gap-4 ml-4 text-sm">
+        <a href="/character-counter" class="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Character Counter</a>
+        <a href="/words-to-pages" class="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Words to Pages</a>
+        <a href="/reading-time-calculator" class="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Reading Time</a>
+        <a href="/essay-word-counter" class="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Essay Counter</a>
+        <a href="/lorem-ipsum-generator" class="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Lorem Ipsum</a>
+        <a href="/features" class="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Features</a>
+      </nav>
+      <div class="flex items-center gap-2">
+        <button id="theme-toggle" aria-label="Toggle dark mode" class="p-2 rounded-lg bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">
+          <svg class="w-5 h-5 hidden dark:block text-yellow-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m8.66-9h-1M4.34 12h-1m15.07-6.07-.71.71M6.34 17.66l-.71.71m12.73 0-.71-.71M6.34 6.34l-.71-.71M12 5a7 7 0 1 1 0 14A7 7 0 0 1 12 5z"/></svg>
+          <svg class="w-5 h-5 block dark:hidden text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M21 12.79A9 9 0 1 1 11.21 3a7 7 0 0 0 9.79 9.79z"/></svg>
+        </button>
+        <button id="mobile-menu-btn" aria-label="Toggle menu" class="md:hidden p-2 rounded-lg bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">
+          <svg id="hamburger-icon" class="w-5 h-5 text-gray-600 dark:text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/></svg>
+          <svg id="close-icon" class="w-5 h-5 text-gray-600 dark:text-gray-300 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+        </button>
+      </div>
+    </div>
+    <!-- Mobile menu -->
+    <div id="mobile-menu" class="hidden md:hidden border-t border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-950">
+      <nav class="flex flex-col px-4 py-3 gap-1 text-sm">
+        <a href="/" class="px-3 py-2 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">Free Word Tool</a>
+        <a href="/character-counter" class="px-3 py-2 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">Character Counter</a>
+        <a href="/words-to-pages" class="px-3 py-2 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">Words to Pages</a>
+        <a href="/reading-time-calculator" class="px-3 py-2 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">Reading Time</a>
+        <a href="/essay-word-counter" class="px-3 py-2 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">Essay Counter</a>
+        <a href="/lorem-ipsum-generator" class="px-3 py-2 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">Lorem Ipsum</a>
+        <a href="/features" class="px-3 py-2 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">Features</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="max-w-3xl mx-auto px-4 py-12">
+    <h1 class="text-3xl font-bold text-gray-900 dark:text-white mb-2">Contact Us</h1>
+    <p class="text-gray-500 dark:text-gray-400 text-sm mb-8">Questions, feedback, or bug reports — get in touch.</p>
+
+    <div class="rounded-2xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 p-6 sm:p-8">
+      <div class="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-6">
+        <div class="w-14 h-14 sm:w-16 sm:h-16 shrink-0 rounded-full bg-blue-600 text-white flex items-center justify-center text-xl sm:text-2xl font-bold">
+          SG
+        </div>
+        <div class="min-w-0">
+          <p class="text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400 mb-1">Developer</p>
+          <h2 class="text-lg sm:text-xl font-semibold text-gray-900 dark:text-white break-words">Swami Guru</h2>
+        </div>
+      </div>
+
+      <div class="mt-6 pt-6 border-t border-gray-200 dark:border-gray-700">
+        <p class="text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400 mb-2">Email</p>
+        <a
+          href="mailto:swami.2580@gmail.com"
+          class="inline-flex items-center gap-2 text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-medium break-all transition-colors"
+        >
+          <svg class="w-5 h-5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+          </svg>
+          swami.2580@gmail.com
+        </a>
+      </div>
+    </div>
+
+    <p class="text-sm text-gray-500 dark:text-gray-400 mt-6 leading-relaxed">
+      Have a question about how Free Word Tool works, a feature request, or found a bug? Send an email and we'll get back to you as soon as possible.
+    </p>
+  </main>
+
+  <footer class="border-t border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-gray-900 mt-12">
+    <div class="max-w-7xl mx-auto px-4 py-8 sm:py-6 flex flex-col items-center gap-4 text-center sm:flex-row sm:justify-between sm:gap-3 sm:text-left text-sm text-gray-500 dark:text-gray-400">
+      <div><a href="/" class="font-semibold text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Free Word Tool</a><span class="mx-2 text-gray-300 dark:text-gray-600">&middot;</span>&copy; 2026 <a href="https://www.builtbyswami.com/" target="_blank" rel="noopener noreferrer" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">BuiltbySwami</a>. All rights reserved.</div>
+      <nav class="flex flex-wrap items-center justify-center gap-x-5 gap-y-2">
+        <a href="/character-counter" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Character Counter</a>
+        <a href="/words-to-pages" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Words to Pages</a>
+        <a href="/reading-time-calculator" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Reading Time</a>
+        <a href="/essay-word-counter" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Essay Counter</a>
+        <a href="/lorem-ipsum-generator" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Lorem Ipsum</a>
+        <a href="/features" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Features</a>
+        <a href="/privacy" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Privacy</a>
+        <a href="/contact-us" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Contact Us</a>
+      </nav>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById('mobile-menu-btn')?.addEventListener('click', () => {
+      const menu = document.getElementById('mobile-menu');
+      const burger = document.getElementById('hamburger-icon');
+      const close  = document.getElementById('close-icon');
+      menu?.classList.toggle('hidden');
+      burger?.classList.toggle('hidden');
+      close?.classList.toggle('hidden');
+    });
+
+    document.getElementById('theme-toggle')?.addEventListener('click', () => {
+      const isDark = document.documentElement.classList.toggle('dark');
+      localStorage.setItem('theme', isDark ? 'dark' : 'light');
+    });
+  </script>
+</Layout>

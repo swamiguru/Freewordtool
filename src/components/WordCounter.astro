@@ -49,7 +49,7 @@ const { heading = "Word Counter" } = Astro.props;
     <!-- Mobile menu -->
     <div id="mobile-menu" class="hidden md:hidden border-t border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-950">
       <nav class="flex flex-col px-4 py-3 gap-1 text-sm">
-        <a href="/" class="px-3 py-2 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">Word Counter</a>
+        <a href="/" class="px-3 py-2 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">Free Word Tool</a>
         <a href="/character-counter" class="px-3 py-2 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">Character Counter</a>
         <a href="/words-to-pages" class="px-3 py-2 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">Words to Pages</a>
         <a href="/reading-time-calculator" class="px-3 py-2 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">Reading Time</a>
@@ -63,8 +63,8 @@ const { heading = "Word Counter" } = Astro.props;
   <!-- Hero Title -->
   <div class="bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-gray-900 dark:to-gray-800 border-b border-gray-200 dark:border-gray-700">
     <div class="max-w-7xl mx-auto px-4 py-6">
-      <h1 class="text-3xl font-bold text-gray-900 dark:text-white">{heading}</h1>
-      <p class="text-gray-600 dark:text-gray-400 mt-1 text-sm">Type or paste text below to instantly count words, characters, sentences, and more.</p>
+      <h1 class="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white">{heading}</h1>
+      <p class="text-gray-600 dark:text-gray-400 mt-1 text-sm">Count words, characters, sentences & paragraphs instantly. Free word counter with reading time, readability score, keyword frequency & Lorem Ipsum generator.</p>
     </div>
   </div>
 
@@ -84,6 +84,7 @@ const { heading = "Word Counter" } = Astro.props;
         <button data-limit="280"  class="limit-btn shrink-0 px-3 py-1 text-xs rounded-full border border-gray-300 dark:border-gray-600 hover:border-blue-500 hover:text-blue-600 transition-colors bg-white dark:bg-gray-800">Twitter (280)</button>
         <button data-limit="500"  class="limit-btn shrink-0 px-3 py-1 text-xs rounded-full border border-gray-300 dark:border-gray-600 hover:border-blue-500 hover:text-blue-600 transition-colors bg-white dark:bg-gray-800">Pinterest (500)</button>
         <button data-limit="2200" class="limit-btn shrink-0 px-3 py-1 text-xs rounded-full border border-gray-300 dark:border-gray-600 hover:border-blue-500 hover:text-blue-600 transition-colors bg-white dark:bg-gray-800">Instagram (2200)</button>
+        <button data-limit="500"  class="limit-btn shrink-0 px-3 py-1 text-xs rounded-full border border-gray-300 dark:border-gray-600 hover:border-blue-500 hover:text-blue-600 transition-colors bg-white dark:bg-gray-800">Threads (500)</button>
         <button data-limit="3000" class="limit-btn shrink-0 px-3 py-1 text-xs rounded-full border border-gray-300 dark:border-gray-600 hover:border-blue-500 hover:text-blue-600 transition-colors bg-white dark:bg-gray-800">LinkedIn (3000)</button>
         <button data-limit="5000" class="limit-btn shrink-0 px-3 py-1 text-xs rounded-full border border-gray-300 dark:border-gray-600 hover:border-blue-500 hover:text-blue-600 transition-colors bg-white dark:bg-gray-800">YouTube Desc (5000)</button>
       </div>
@@ -99,27 +100,50 @@ const { heading = "Word Counter" } = Astro.props;
     </div>
 
     <!-- Editor + Stats -->
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
-      <!-- Textarea -->
-      <div class="lg:col-span-2 flex flex-col">
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 lg:items-start">
+      <!-- Textarea — order 1 on mobile -->
+      <div class="lg:col-span-2 flex flex-col order-1 lg:order-none">
         <!-- Writing Analysis toggle -->
-        <div class="flex items-center justify-between mb-2">
-          <div class="flex items-center gap-3">
-            <label class="flex items-center gap-2 cursor-pointer select-none">
-              <div class="relative">
+        <div class="flex items-center justify-between gap-2 mb-2 flex-wrap">
+          <div class="flex items-center gap-2 sm:gap-3 flex-wrap">
+            <label class="flex items-center gap-2 cursor-pointer select-none shrink-0">
+              <div class="relative shrink-0">
                 <input id="analysis-toggle" type="checkbox" class="sr-only peer" />
                 <div class="w-9 h-5 rounded-full bg-gray-300 dark:bg-gray-600 peer-checked:bg-blue-600 transition-colors"></div>
                 <div class="absolute top-0.5 left-0.5 w-4 h-4 rounded-full bg-white shadow transition-transform peer-checked:translate-x-4"></div>
               </div>
-              <span class="text-sm font-medium text-gray-700 dark:text-gray-300">Writing Analysis</span>
+              <span class="text-sm font-medium text-gray-700 dark:text-gray-300 whitespace-nowrap">Writing Analysis</span>
             </label>
-            <button id="lorem-fill" class="text-xs px-2.5 py-1 rounded-md border border-gray-200 dark:border-gray-600 text-gray-500 dark:text-gray-400 hover:border-blue-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Try Lorem Ipsum</button>
-            <div id="analysis-legend" class="hidden items-center gap-3 text-xs text-gray-500 dark:text-gray-400">
-              <span class="flex items-center gap-1"><span class="inline-block w-3 h-3 rounded-sm bg-yellow-200"></span>20–30 words</span>
-              <span class="flex items-center gap-1"><span class="inline-block w-3 h-3 rounded-sm bg-red-200"></span>30+ words</span>
-              <span class="flex items-center gap-1"><span class="inline-block w-3 h-3 rounded-sm border-b-2 border-blue-500"></span>Passive</span>
+            <label class="flex items-center gap-2 cursor-pointer select-none shrink-0">
+              <div class="relative shrink-0">
+                <input id="sound-toggle" type="checkbox" class="sr-only peer" />
+                <div class="w-9 h-5 rounded-full bg-gray-300 dark:bg-gray-600 peer-checked:bg-blue-600 transition-colors"></div>
+                <div class="absolute top-0.5 left-0.5 w-4 h-4 rounded-full bg-white shadow transition-transform peer-checked:translate-x-4"></div>
+              </div>
+              <span class="text-sm font-medium text-gray-700 dark:text-gray-300 whitespace-nowrap">Sounds</span>
+            </label>
+            <select id="sound-mode" class="shrink-0 text-xs px-2 py-1 rounded-md border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 focus:outline-none focus:border-blue-500 transition-colors">
+              <option value="tap">Minimal Tap</option>
+              <option value="mech">Mechanical</option>
+              <option value="future">Futuristic</option>
+            </select>
+            <button id="lorem-fill" class="shrink-0 whitespace-nowrap text-xs px-2.5 py-1 rounded-md border border-gray-200 dark:border-gray-600 text-gray-500 dark:text-gray-400 hover:border-blue-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Try Lorem Ipsum</button>
+            <div id="analysis-legend" class="hidden items-center gap-3 text-xs text-gray-500 dark:text-gray-400 flex-wrap">
+              <span class="flex items-center gap-1 whitespace-nowrap"><span class="inline-block w-3 h-3 rounded-sm bg-yellow-200"></span>20–30 words</span>
+              <span class="flex items-center gap-1 whitespace-nowrap"><span class="inline-block w-3 h-3 rounded-sm bg-red-200"></span>30+ words</span>
+              <span class="flex items-center gap-1 whitespace-nowrap"><span class="inline-block w-3 h-3 rounded-sm border-b-2 border-blue-500"></span>Passive</span>
             </div>
           </div>
+          <button
+            id="clear-btn"
+            class="shrink-0 whitespace-nowrap flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-300 hover:text-red-600 dark:hover:text-red-400 hover:border-red-300 dark:hover:border-red-700 hover:bg-red-50 dark:hover:bg-red-950 shadow-sm transition-colors opacity-0"
+            aria-label="Clear text"
+          >
+            <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+            </svg>
+            Clear Text
+          </button>
         </div>
 
         <div class="relative">
@@ -135,15 +159,6 @@ const { heading = "Word Counter" } = Astro.props;
             spellcheck="true"
             class="relative w-full h-80 lg:h-[520px] p-4 text-base leading-relaxed rounded-xl border-2 border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-600 resize-none focus:outline-none focus:border-blue-500 dark:focus:border-blue-500 transition-colors font-sans"
           ></textarea>
-          <button
-            id="clear-btn"
-            class="absolute top-3 right-3 p-1.5 rounded-lg text-gray-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-950 transition-colors opacity-0"
-            aria-label="Clear text"
-          >
-            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
-            </svg>
-          </button>
           <!-- Draft saved badge -->
           <div id="draft-badge" class="absolute bottom-3 left-3 px-2 py-1 rounded-md bg-green-100 dark:bg-green-900 text-green-700 dark:text-green-300 text-xs font-medium opacity-0 transition-opacity duration-500 pointer-events-none">
             Draft saved
@@ -181,8 +196,8 @@ const { heading = "Word Counter" } = Astro.props;
         </div>
       </div>
 
-      <!-- Stats Panel -->
-      <div class="flex flex-col gap-3">
+      <!-- Stats Panel — order 2 on mobile, spans both rows on desktop -->
+      <div class="flex flex-col gap-3 order-2 lg:order-none lg:row-span-2 lg:self-start">
         <!-- Word Goal -->
         <div class="p-4 rounded-xl bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700">
           <label for="word-goal" class="text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400 mb-2 block">Word Goal</label>
@@ -317,6 +332,11 @@ const { heading = "Word Counter" } = Astro.props;
           </div>
         </div>
       </div>
+
+      <!-- Below-textarea — order 3 on mobile, left 2 cols row 2 on desktop -->
+      <div class="order-3 lg:order-none lg:col-span-2">
+        <slot name="below-textarea" />
+      </div>
     </div>
   </main>
 </div>
@@ -325,9 +345,13 @@ const { heading = "Word Counter" } = Astro.props;
   .stat-card { transition: transform 0.1s ease; }
   .stat-card:hover { transform: translateY(-1px); }
   .limit-btn.active {
-    background-color: rgb(37 99 235);
-    color: white;
-    border-color: rgb(37 99 235);
+    background-color: rgb(37 99 235) !important;
+    color: white !important;
+    border-color: rgb(37 99 235) !important;
+  }
+  [data-variant="material"] .limit-btn.active {
+    background-color: var(--color-brand-600) !important;
+    border-color: var(--color-brand-600) !important;
   }
   #text-input.over-limit {
     border-color: rgb(239 68 68) !important;
@@ -589,6 +613,7 @@ function buildOverlay(text) {
 }
 
 let analysisOn = false;
+let _prevWordCount = 0;
 
 function updateAnalysis(text) {
   const overlay = document.getElementById('analysis-overlay');
@@ -734,6 +759,9 @@ function updateStats() {
   // Word goal
   updateGoal(words);
 
+  // Streak & stats widget
+  updateStreakWidget(words);
+
   // Clear btn visibility
   const clearBtn = document.getElementById('clear-btn');
   if (text.length > 0) {
@@ -789,19 +817,29 @@ document.getElementById('tab-bigrams').addEventListener('click', () => {
   document.getElementById('tab-words').classList.remove('active-tab');
 });
 
+// Restore draft on page load first, so _prevTextLen is synced to the restored length
+const saved = localStorage.getItem('wc-autosave');
+if (saved) {
+  document.getElementById('text-input').value = saved;
+  _prevWordCount = countWords(saved);
+}
+
 // Auto-save to localStorage
+let _prevTextLen = document.getElementById('text-input').value.length; // synced after draft restore
+let _keydownFired = false;
 document.getElementById('text-input').addEventListener('input', () => {
   const text = document.getElementById('text-input').value;
+  const newLen = text.length;
+  const delta = Math.abs(newLen - _prevTextLen);
+  _prevTextLen = newLen;
+  // Mobile fallback: fire sound on single-char input when keydown didn't fire
+  if (!_keydownFired && delta === 1) playSoundKey();
+  _keydownFired = false;
+  localStorage.setItem('wc-last-edit-ts', Date.now());
   localStorage.setItem('wc-autosave', text);
   showDraftBadge();
   updateStats();
 });
-
-// Restore draft on page load
-const saved = localStorage.getItem('wc-autosave');
-if (saved) {
-  document.getElementById('text-input').value = saved;
-}
 
 // Word goal input
 document.getElementById('word-goal').addEventListener('input', () => {
@@ -819,9 +857,22 @@ document.getElementById('clear-btn').addEventListener('click', () => {
 document.getElementById('copy-btn').addEventListener('click', async () => {
   const text = document.getElementById('text-input').value;
   if (!text) return;
-  await navigator.clipboard.writeText(text);
+  // Try execCommand first — synchronous, works within user-gesture frame on all browsers including iOS Safari
+  let ok = false;
+  const ta = document.createElement('textarea');
+  ta.value = text;
+  ta.style.cssText = 'position:fixed;top:0;left:0;width:1px;height:1px;opacity:0;';
+  document.body.appendChild(ta);
+  ta.focus();
+  ta.select();
+  try { ok = document.execCommand('copy'); } catch {}
+  document.body.removeChild(ta);
+  // If execCommand failed (disabled in some modern browsers), fall back to async clipboard API
+  if (!ok) {
+    try { await navigator.clipboard.writeText(text); ok = true; } catch {}
+  }
   const label = document.getElementById('copy-btn-label');
-  label.textContent = 'Copied!';
+  label.textContent = ok ? 'Copied!' : 'Copy failed';
   setTimeout(() => { label.textContent = 'Copy text'; }, 2000);
 });
 
@@ -834,8 +885,10 @@ document.getElementById('download-btn').addEventListener('click', () => {
   const a = document.createElement('a');
   a.href = url;
   a.download = 'wordcount-text.txt';
+  document.body.appendChild(a);
   a.click();
-  URL.revokeObjectURL(url);
+  document.body.removeChild(a);
+  setTimeout(() => URL.revokeObjectURL(url), 10000);
 });
 
 // Limit buttons
@@ -869,6 +922,274 @@ document.getElementById('mobile-menu-btn')?.addEventListener('click', () => {
   burger?.classList.toggle('hidden');
   close?.classList.toggle('hidden');
 });
+
+// ── Writing Streak & Stats ────────────────────────────────────────────────────
+function dateKey(daysAgo = 0) {
+  const d = new Date();
+  d.setDate(d.getDate() - daysAgo);
+  return d.toISOString().slice(0, 10);
+}
+
+function getDailyWords(key) {
+  return parseInt(localStorage.getItem('wc-daily-' + key) || '0', 10);
+}
+function setDailyWords(key, n) {
+  localStorage.setItem('wc-daily-' + key, n);
+}
+
+function getStreakData() {
+  return {
+    count: parseInt(localStorage.getItem('wc-streak-count') || '0', 10),
+    lastDate: localStorage.getItem('wc-streak-last-date') || ''
+  };
+}
+
+function refreshStreak(today) {
+  const { count, lastDate } = getStreakData();
+  if (lastDate === today) return count;
+  const yesterday = dateKey(1);
+  const next = lastDate === yesterday ? count + 1 : 1;
+  localStorage.setItem('wc-streak-count', next);
+  localStorage.setItem('wc-streak-last-date', today);
+  return next;
+}
+
+function timeAgo(ts) {
+  if (!ts) return '—';
+  const secs = Math.floor((Date.now() - ts) / 1000);
+  if (secs < 15) return 'just now';
+  if (secs < 60) return `${secs}s ago`;
+  const mins = Math.floor(secs / 60);
+  if (mins < 60) return `${mins} min ago`;
+  const hrs = Math.floor(mins / 60);
+  if (hrs < 24) return `${hrs}h ago`;
+  return 'yesterday';
+}
+
+function abbr(n) {
+  if (n >= 1000) return (n / 1000).toFixed(1).replace(/\.0$/, '') + 'k';
+  return n.toString();
+}
+
+function streakMsg(count, todayWords) {
+  if (todayWords === 0 && count === 0) return 'Start writing to begin your streak!';
+  if (todayWords === 0) return 'Write something today to keep your streak alive.';
+  if (count === 1) return 'Great start! Come back tomorrow to build your streak.';
+  if (count === 2) return '2-day streak — you\'re building a habit!';
+  if (count < 7)  return `${count}-day streak — keep it up!`;
+  if (count < 14) return `${count}-day streak — you\'re on fire!`;
+  if (count < 30) return `${count}-day streak — seriously impressive!`;
+  return `${count}-day streak — legendary writer!`;
+}
+
+function renderDots(activeDays) {
+  const el = document.getElementById('streak-dots');
+  const labels = ['M','T','W','T','F','S','S'];
+  const todayDow = (new Date().getDay() + 6) % 7; // 0=Mon
+  el.innerHTML = activeDays.map((active, i) => {
+    const isToday = i === 6;
+    const dotCls = active
+      ? 'bg-blue-500 border-blue-500'
+      : isToday
+        ? 'border-blue-300 dark:border-blue-700 border-dashed'
+        : 'bg-gray-200 dark:bg-gray-700 border-gray-200 dark:border-gray-700';
+    const dow = (todayDow - (6 - i) + 7) % 7;
+    return `<div class="flex flex-col items-center gap-0.5">
+      <div class="w-4 h-4 rounded-full border ${dotCls}"></div>
+      <span class="text-gray-400 dark:text-gray-600" style="font-size:9px">${labels[dow]}</span>
+    </div>`;
+  }).join('');
+}
+
+// Track word-count delta for "words added today" (deletions don't subtract)
+function updateStreakWidget(wordCount) {
+  const today = dateKey();
+
+  // Accumulate only increases (so deleting doesn't erase credit)
+  const delta = wordCount - _prevWordCount;
+  if (delta > 0) setDailyWords(today, getDailyWords(today) + delta);
+  _prevWordCount = wordCount;
+
+  const todayWords = getDailyWords(today);
+  const streakCount = todayWords > 0 ? refreshStreak(today) : getStreakData().count;
+
+  // Week total
+  let weekTotal = 0;
+  for (let i = 0; i < 7; i++) weekTotal += getDailyWords(dateKey(i));
+
+  // 7-day dot row (index 0 = 6 days ago, index 6 = today)
+  const dots = Array.from({ length: 7 }, (_, i) => getDailyWords(dateKey(6 - i)) > 0);
+
+  // Streak widget only exists on the homepage — exit cleanly on other pages
+  const _sc = document.getElementById('streak-count');
+  if (!_sc) return;
+
+  const lastEditTs = localStorage.getItem('wc-last-edit-ts');
+
+  _sc.textContent = streakCount;
+  document.getElementById('streak-today').textContent = abbr(todayWords);
+  document.getElementById('streak-week').textContent = abbr(weekTotal);
+  document.getElementById('streak-last-edit').textContent = timeAgo(lastEditTs ? parseInt(lastEditTs) : null);
+  document.getElementById('streak-msg').textContent = streakMsg(streakCount, todayWords);
+  renderDots(dots);
+}
+
+// Refresh the "X min ago" label every 15s without re-running full updateStats
+setInterval(() => {
+  const ts = localStorage.getItem('wc-last-edit-ts');
+  const el = document.getElementById('streak-last-edit');
+  if (el) el.textContent = timeAgo(ts ? parseInt(ts) : null);
+}, 15000);
+// ─────────────────────────────────────────────────────────────────────────────
+
+// ── Typewriter Sounds ────────────────────────────────────────────────────────
+let _audioCtx = null;
+function getAudioCtx() {
+  if (!_audioCtx || _audioCtx.state === 'closed') {
+    _audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  }
+  return _audioCtx;
+}
+
+function playMechKey(vol) {
+  const ctx = getAudioCtx();
+  const now = ctx.currentTime;
+  const sr = ctx.sampleRate;
+
+  const impactLen = Math.floor(sr * 0.055);
+  const buf1 = ctx.createBuffer(1, impactLen, sr);
+  const d1 = buf1.getChannelData(0);
+  for (let i = 0; i < impactLen; i++) d1[i] = (Math.random() * 2 - 1) * Math.exp(-i / (impactLen * 0.12));
+  const src1 = ctx.createBufferSource();
+  src1.buffer = buf1;
+  const bp = ctx.createBiquadFilter(); bp.type = 'bandpass'; bp.frequency.value = 1800; bp.Q.value = 0.7;
+  const hp = ctx.createBiquadFilter(); hp.type = 'highpass'; hp.frequency.value = 600;
+  const g1 = ctx.createGain(); g1.gain.setValueAtTime(vol * 0.9, now); g1.gain.exponentialRampToValueAtTime(0.001, now + 0.07);
+  src1.connect(bp); bp.connect(hp); hp.connect(g1); g1.connect(ctx.destination); src1.start(now);
+
+  const snapLen = Math.floor(sr * 0.025);
+  const buf2 = ctx.createBuffer(1, snapLen, sr);
+  const d2 = buf2.getChannelData(0);
+  for (let i = 0; i < snapLen; i++) d2[i] = (Math.random() * 2 - 1) * Math.exp(-i / (snapLen * 0.06));
+  const src2 = ctx.createBufferSource();
+  src2.buffer = buf2;
+  const hp2 = ctx.createBiquadFilter(); hp2.type = 'highpass'; hp2.frequency.value = 3500;
+  const g2 = ctx.createGain(); g2.gain.setValueAtTime(vol * 0.5, now + 0.008); g2.gain.exponentialRampToValueAtTime(0.001, now + 0.04);
+  src2.connect(hp2); hp2.connect(g2); g2.connect(ctx.destination); src2.start(now + 0.008);
+}
+
+function playTapKey(vol) {
+  const ctx = getAudioCtx();
+  const now = ctx.currentTime;
+  const sr = ctx.sampleRate;
+
+  // Mid-frequency noise burst — soft laptop "thock", no pitch sweep, no snap
+  const len = Math.floor(sr * 0.022);
+  const buf = ctx.createBuffer(1, len, sr);
+  const d = buf.getChannelData(0);
+  for (let i = 0; i < len; i++) d[i] = (Math.random() * 2 - 1) * Math.exp(-i / (len * 0.2));
+  const src = ctx.createBufferSource();
+  src.buffer = buf;
+  const bp = ctx.createBiquadFilter(); bp.type = 'bandpass'; bp.frequency.value = 900; bp.Q.value = 1.5;
+  const g = ctx.createGain(); g.gain.setValueAtTime(vol * 0.5, now); g.gain.exponentialRampToValueAtTime(0.001, now + 0.022);
+  src.connect(bp); bp.connect(g); g.connect(ctx.destination);
+  src.start(now);
+
+  // Subtle sine body at 400 Hz for a slight warmth/depth
+  const osc = ctx.createOscillator();
+  osc.type = 'sine';
+  osc.frequency.value = 400;
+  const g2 = ctx.createGain(); g2.gain.setValueAtTime(vol * 0.08, now); g2.gain.exponentialRampToValueAtTime(0.001, now + 0.015);
+  osc.connect(g2); g2.connect(ctx.destination);
+  osc.start(now); osc.stop(now + 0.015);
+}
+
+function playFutureKey(vol) {
+  const ctx = getAudioCtx();
+  const now = ctx.currentTime;
+  const osc = ctx.createOscillator();
+  osc.type = 'sine';
+  osc.frequency.setValueAtTime(1050, now);
+  osc.frequency.exponentialRampToValueAtTime(520, now + 0.035);
+  const g = ctx.createGain(); g.gain.setValueAtTime(vol * 0.22, now); g.gain.exponentialRampToValueAtTime(0.001, now + 0.06);
+  osc.connect(g); g.connect(ctx.destination); osc.start(now); osc.stop(now + 0.07);
+
+  const osc2 = ctx.createOscillator();
+  osc2.type = 'triangle';
+  osc2.frequency.setValueAtTime(2200, now);
+  osc2.frequency.exponentialRampToValueAtTime(800, now + 0.02);
+  const g2 = ctx.createGain(); g2.gain.setValueAtTime(vol * 0.1, now); g2.gain.exponentialRampToValueAtTime(0.001, now + 0.03);
+  osc2.connect(g2); g2.connect(ctx.destination); osc2.start(now); osc2.stop(now + 0.04);
+}
+
+let soundEnabled = false;
+
+function _doPlay() {
+  const mode = document.getElementById('sound-mode').value;
+  if (mode === 'mech') playMechKey(0.7);
+  else if (mode === 'future') playFutureKey(0.7);
+  else playTapKey(0.7);
+}
+
+function playSoundKey() {
+  if (!soundEnabled) return;
+  try {
+    const ctx = getAudioCtx();
+    if (ctx.state === 'running') {
+      _doPlay();
+    } else {
+      ctx.resume().then(_doPlay).catch(() => {});
+    }
+  } catch {}
+}
+
+const soundToggle = document.getElementById('sound-toggle');
+const soundModeEl = document.getElementById('sound-mode');
+
+const savedSound = localStorage.getItem('wc-sound');
+const savedSoundMode = localStorage.getItem('wc-sound-mode');
+if (savedSoundMode) soundModeEl.value = savedSoundMode;
+if (savedSound === 'on') {
+  soundEnabled = true;
+  soundToggle.checked = true;
+  try { getAudioCtx(); } catch {}
+}
+
+soundToggle.addEventListener('change', async (e) => {
+  soundEnabled = e.target.checked;
+  localStorage.setItem('wc-sound', soundEnabled ? 'on' : 'off');
+  if (soundEnabled) {
+    try {
+      const ctx = getAudioCtx();
+      await ctx.resume();
+      playSoundKey();
+    } catch {}
+  }
+});
+
+soundModeEl.addEventListener('change', () => {
+  localStorage.setItem('wc-sound-mode', soundModeEl.value);
+  // Preview the selected sound immediately
+  if (soundEnabled) playSoundKey();
+});
+
+document.getElementById('text-input').addEventListener('keydown', (e) => {
+  if (e.ctrlKey || e.metaKey || e.altKey) return;
+  if (e.key.length === 1 || e.key === 'Enter' || e.key === 'Backspace') {
+    _keydownFired = true;
+    playSoundKey();
+  }
+});
+
+// iOS Safari: resume AudioContext on first touch of the textarea (touchstart IS
+// a user-activation gesture; the input event is not, so ctx.resume() would be
+// silently rejected without this primer).
+document.getElementById('text-input').addEventListener('touchstart', () => {
+  if (soundEnabled && _audioCtx && _audioCtx.state === 'suspended') {
+    _audioCtx.resume().catch(() => {});
+  }
+}, { passive: true });
+// ─────────────────────────────────────────────────────────────────────────────
 
 // Initial call
 updateStats();

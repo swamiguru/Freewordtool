@@ -1,3 +1,131 @@
 @import "tailwindcss";
 
 @custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --color-brand-50: #f2f6ec;
+  --color-brand-100: #e3edd5;
+  --color-brand-200: #c7dcae;
+  --color-brand-300: #a3c781;
+  --color-brand-400: #7eae5c;
+  --color-brand-500: #56923c;
+  --color-brand-600: #3c742c;
+  --color-brand-700: #2f5b24;
+  --color-brand-800: #25461c;
+  --color-brand-900: #1a3314;
+
+  --color-cream-50: #fdfcf8;
+  --color-cream-100: #f8f5ec;
+  --color-cream-200: #f0ead9;
+
+  --color-surface-dark-900: #12160d;
+  --color-surface-dark-800: #1b2114;
+  --color-surface-dark-700: #242b1b;
+  --color-surface-dark-600: #303a24;
+}
+
+/* ── Material You theme (site-wide) ──────────────────────────────────────── */
+/* Scoped via [data-variant="material"] set on <body> in Layout.astro, so it */
+/* applies to every page automatically.                                     */
+/* Light-mode only — rules below must lose to existing dark: utilities, so  */
+/* every rule that has a light/dark pair in the markup is guarded with     */
+/* html:not(.dark) to avoid out-specificity-ing Tailwind's dark: variant.   */
+
+html:not(.dark) [data-variant="material"] .bg-white { background-color: var(--color-cream-50); }
+html:not(.dark) [data-variant="material"] .border-gray-200 { border-color: var(--color-brand-100); }
+html:not(.dark) [data-variant="material"] .from-blue-50 { --tw-gradient-from: var(--color-brand-50); }
+html:not(.dark) [data-variant="material"] .to-indigo-50 { --tw-gradient-to: var(--color-cream-100); }
+html:not(.dark) [data-variant="material"] .bg-gray-50 { background-color: var(--color-cream-100); }
+html:not(.dark) [data-variant="material"] .bg-gray-100 { background-color: var(--color-cream-200); }
+html:not(.dark) [data-variant="material"] .text-blue-600 { color: var(--color-brand-700); }
+html:not(.dark) [data-variant="material"] .hover\:text-blue-600:hover { color: var(--color-brand-700); }
+html:not(.dark) [data-variant="material"] .hover\:text-blue-700:hover { color: var(--color-brand-800); }
+html:not(.dark) [data-variant="material"] .group:hover .group-hover\:text-blue-700 { color: var(--color-brand-800); }
+html:not(.dark) [data-variant="material"] .bg-blue-50 { background-color: var(--color-brand-50); }
+html:not(.dark) [data-variant="material"] .bg-blue-100 { background-color: var(--color-brand-100); }
+html:not(.dark) [data-variant="material"] .border-blue-200 { border-color: var(--color-brand-200); }
+html:not(.dark) [data-variant="material"] .text-blue-700 { color: var(--color-brand-800); }
+
+/* These have no dark: counterpart in the markup — safe to apply in both modes. */
+[data-variant="material"] .bg-blue-600 { background-color: var(--color-brand-600); }
+[data-variant="material"] .bg-indigo-600 { background-color: var(--color-brand-800); }
+[data-variant="material"] .text-blue-200 { color: var(--color-brand-100); }
+[data-variant="material"] .text-indigo-200 { color: var(--color-brand-200); }
+[data-variant="material"] .hover\:border-blue-500:hover { border-color: var(--color-brand-500); }
+[data-variant="material"] .hover\:border-blue-400:hover { border-color: var(--color-brand-400); }
+[data-variant="material"] .hover\:bg-blue-700:hover { background-color: var(--color-brand-700); }
+[data-variant="material"] .focus\:border-blue-500:focus { border-color: var(--color-brand-500); }
+[data-variant="material"] .peer:checked ~ .peer-checked\:bg-blue-600 { background-color: var(--color-brand-600); }
+
+[data-variant="material"] .rounded-xl { border-radius: 1.25rem; }
+[data-variant="material"] .rounded-lg { border-radius: 1rem; }
+[data-variant="material"] .rounded-md { border-radius: 0.75rem; }
+[data-variant="material"] .rounded-2xl { border-radius: 1.5rem; }
+
+/* ── Dark mode tonal surfaces ─────────────────────────────────────────────── */
+/* Same forest-green seed, applied as dark charcoal-green surfaces instead of */
+/* flat gray, so dark mode feels like the same product instead of falling    */
+/* back to the old blue/gray palette. Scoped under .dark so these only beat  */
+/* Tailwind's dark: utilities while dark mode is active.                     */
+
+.dark [data-variant="material"] .dark\:bg-gray-950 { background-color: var(--color-surface-dark-900); }
+.dark [data-variant="material"] .dark\:bg-gray-900 { background-color: var(--color-surface-dark-800); }
+.dark [data-variant="material"] .dark\:bg-gray-800 { background-color: var(--color-surface-dark-700); }
+.dark [data-variant="material"] .dark\:bg-gray-700 { background-color: var(--color-surface-dark-600); }
+.dark [data-variant="material"] .dark\:bg-gray-600 { background-color: var(--color-surface-dark-600); }
+.dark [data-variant="material"] .dark\:bg-gray-800\/40 { background-color: rgb(36 43 27 / 0.4); }
+.dark [data-variant="material"] .dark\:border-gray-800 { border-color: var(--color-surface-dark-600); }
+.dark [data-variant="material"] .dark\:border-gray-700 { border-color: var(--color-surface-dark-600); }
+.dark [data-variant="material"] .dark\:border-gray-600 { border-color: var(--color-surface-dark-600); }
+.dark [data-variant="material"] .dark\:hover\:bg-gray-800:hover { background-color: var(--color-surface-dark-700); }
+.dark [data-variant="material"] .dark\:hover\:bg-gray-700:hover { background-color: var(--color-surface-dark-600); }
+.dark [data-variant="material"] .dark\:from-gray-900 { --tw-gradient-from: var(--color-surface-dark-800); }
+.dark [data-variant="material"] .dark\:to-gray-800 { --tw-gradient-to: var(--color-surface-dark-700); }
+
+.dark [data-variant="material"] .dark\:text-blue-400 { color: var(--color-brand-400); }
+.dark [data-variant="material"] .dark\:hover\:text-blue-400:hover { color: var(--color-brand-300); }
+.dark [data-variant="material"] .dark\:hover\:text-blue-300:hover { color: var(--color-brand-200); }
+.dark [data-variant="material"] .dark\:text-blue-300 { color: var(--color-brand-300); }
+.dark [data-variant="material"] .dark\:bg-blue-950 { background-color: var(--color-brand-900); }
+.dark [data-variant="material"] .dark\:border-blue-800 { border-color: var(--color-brand-700); }
+.dark [data-variant="material"] .dark\:focus\:border-blue-500:focus { border-color: var(--color-brand-400); }
+
+/* Native <select> dropdowns must follow the site's own light/dark toggle,   */
+/* not the OS preference — otherwise the popup list renders with the OS's   */
+/* dark appearance even while the page itself is in light mode.             */
+select { color-scheme: light; }
+.dark select { color-scheme: dark; }
+
+html:not(.dark) [data-variant="material"] select option {
+  background-color: var(--color-cream-50);
+  color: #1f2937;
+}
+html:not(.dark) [data-variant="material"] select option:checked,
+html:not(.dark) [data-variant="material"] select option:hover {
+  background-color: var(--color-brand-600);
+  color: #fff;
+}
+
+.dark [data-variant="material"] select option {
+  background-color: var(--color-surface-dark-700);
+  color: #f3f4f6;
+}
+.dark [data-variant="material"] select option:checked,
+.dark [data-variant="material"] select option:hover {
+  background-color: var(--color-brand-600);
+  color: #fff;
+}
+
+/* Sound mode dropdown: enabled only when sound-toggle is checked.
+   CSS :has() is synchronous — no JS timing issues, works across all pages. */
+#sound-mode {
+  opacity: 0.4;
+  pointer-events: none;
+  cursor: not-allowed;
+  transition: opacity 0.15s;
+}
+body:has(#sound-toggle:checked) #sound-mode {
+  opacity: 1;
+  pointer-events: auto;
+  cursor: auto;
+}
